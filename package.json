@@ -1,0 +1,12 @@
+{
+  "name": "ig-prop-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive Instagram-style prop site for a music video (static, real-pixel screens).",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

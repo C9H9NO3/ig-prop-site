@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=720, viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<title>Instagram</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+  html,body{background:#000;height:100%;overflow:hidden;font-family:-apple-system,"SF Pro Text",sans-serif;}
+  #app{position:fixed;inset:0;background:#000;}
+  #safetop{position:absolute;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:#000;z-index:1000;}
+  #stage{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;bottom:0;overflow:hidden;background:#000;}
+  .screen{position:absolute;inset:0;background:#000;will-change:transform;overflow:hidden;}
+  .full{display:block;width:720px;}
+  video.full{width:720px;height:100%;object-fit:cover;background:#4a2d6b;}
+  .hot{position:absolute;background:transparent;}
+
+  /* insights internals */
+  #insHeader{position:absolute;top:0;left:0;width:720px;z-index:5;background:#000;}
+  #insHeader img{display:block;width:720px;}
+  #insContent{position:absolute;top:184px;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#000;z-index:1;}
+  #insContent img{display:block;width:720px;}
+  #insLoading{position:absolute;inset:0;z-index:10;background:#000;}
+  #insLoading img{display:block;width:720px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="safetop"></div>
+  <div id="stage">
+
+    <!-- HOME -->
+    <div class="screen" id="s-home" style="z-index:1">
+      <video class="full" id="promo" autoplay muted loop playsinline>
+        <source src="screens/promo_placeholder.mp4" type="video/mp4">
+      </video>
+      <img class="full" src="screens/home_chrome_c.png" style="position:absolute;top:0;left:0">
+      <div class="hot" style="left:560px;top:1330px;width:160px;height:138px" onclick="goProfile()"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="screen" id="s-profile" style="transform:translateX(720px)">
+      <img class="full" src="screens/profile_c.png">
+      <div class="hot" style="left:40px;top:495px;width:640px;height:130px" onclick="goDashboard()"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="screen" id="s-dashboard" style="transform:translateX(720px)">
+      <img class="full" id="dashImg" src="screens/dash_loaded_c.png">
+      <div class="hot" style="left:40px;top:188px;width:680px;height:120px" onclick="goInsights()"></div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="screen" id="s-insights" style="transform:translateX(720px)">
+      <div id="insHeader"><img id="himg" src="insights_overview_header2.png"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png"></div>
+      <div class="hot" style="left:0;top:96px;width:240px;height:80px" onclick="insTab('overview')"></div>
+      <div class="hot" style="left:480px;top:96px;width:240px;height:80px" onclick="insTab('audience')"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png"></div>
+    </div>
+
+  </div>
+</div>
+<script>
+  const el = id => document.getElementById(id);
+  let zTop = 2;
+  function raise(id){ el(id).style.zIndex = ++zTop; }
+
+  function push(id){                      // slide in from right
+    const s = el(id); raise(id);
+    s.style.transition = 'none'; s.style.transform = 'translateX(720px)';
+    s.getBoundingClientRect();
+    s.style.transition = 'transform .34s cubic-bezier(.3,.7,.3,1)';
+    s.style.transform = 'translateX(0)';
+  }
+
+  function goProfile(){                    // home -> profile (switch, no slide)
+    const s = el('s-profile'); raise('s-profile');
+    s.style.transition = 'none'; s.style.transform = 'translateX(0)'; s.style.opacity = '0';
+    s.getBoundingClientRect();
+    s.style.transition = 'opacity .22s ease';
+    s.style.opacity = '1';
+  }
+
+  function goDashboard(){                  // profile -> dashboard (slide + skeleton)
+    el('dashImg').src = 'screens/dash_skeleton_c.png';
+    push('s-dashboard');
+    setTimeout(() => { el('dashImg').src = 'screens/dash_loaded_c.png'; }, 850);
+  }
+
+  function goInsights(){                   // dashboard -> insights (slide + spinner + skeleton)
+    insTab('overview', true);
+    el('insContent').scrollTop = 0;
+    const ld = el('insLoading'); ld.style.display = 'block';
+    el('loadImg').src = 'screens/ins_spinner_c.png';
+    push('s-insights');
+    setTimeout(() => { el('loadImg').src = 'screens/ins_skeleton_c.png'; }, 650);
+    setTimeout(() => { ld.style.display = 'none'; }, 1350);
+  }
+
+  function insTab(p, silent){
+    const pages = {
+      overview: ['insights_overview_header2.png', 'insights_overview_full.png'],
+      audience: ['insights_audience_header2.png', 'insights_audience_full.png'],
+    };
+    if (!pages[p]) return;
+    el('himg').src = pages[p][0];
+    el('cimg').src = pages[p][1];
+    if (!silent) el('insContent').scrollTop = 0;
+  }
+</script>
+</body>
+</html>
