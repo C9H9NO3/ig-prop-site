@@ -7,24 +7,25 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=5">
-<link rel="apple-touch-icon" href="icon.png?v=5">
+<link rel="manifest" href="manifest.json?v=6">
+<link rel="apple-touch-icon" href="icon.png?v=6">
 <title>Instagram</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
-  html,body{background:#000;height:100%;overflow:hidden;font-family:-apple-system,"SF Pro Text",sans-serif;
+  html,body{background:#0b0e13;height:100%;overflow:hidden;font-family:-apple-system,"SF Pro Text",sans-serif;
             touch-action:manipulation;-webkit-text-size-adjust:100%;}
   img,video{-webkit-user-drag:none;}
   /* height driven by the real visible viewport (JS sets --app-h); 100svh fallback */
-  #app{position:fixed;top:0;left:0;right:0;height:var(--app-h,100svh);background:#000;}
+  #app{position:fixed;top:0;left:0;right:0;height:var(--app-h,100svh);background:#0b0e13;}
   #safetop{display:none;}                 /* status strip is baked into the screen images now */
-  #stage{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;background:#000;}
+  #stage{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;background:#0b0e13;}
 
-  /* static screens: fill the width, natural height, top-aligned (no side bars) */
-  .screen{position:absolute;inset:0;background:#000;overflow:hidden;will-change:transform;
-          display:flex;align-items:flex-start;justify-content:center;}
-  .sheet{position:relative;width:100%;max-width:100%;height:auto;}
-  .sheet > img{display:block;width:100%;height:auto;position:relative;z-index:1;}
+  /* static screens: fit the WHOLE frame within the viewport height so the nav is
+     never clipped; padded images match the device aspect so width still fills */
+  .screen{position:absolute;inset:0;background:#0b0e13;overflow:hidden;will-change:transform;
+          display:flex;align-items:center;justify-content:center;}
+  .sheet{position:relative;height:100%;max-height:100%;width:auto;max-width:100%;margin:auto;}
+  .sheet > img{display:block;height:100%;width:auto;max-width:100%;position:relative;z-index:1;}
   video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#4a2d6b;z-index:0;}
   .hot{position:absolute;background:transparent;z-index:5;}
 
@@ -32,9 +33,9 @@
   #s-insights{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;}
   #insHeader{position:relative;width:100%;flex:0 0 auto;z-index:5;}
   #insHeader img{display:block;width:100%;}
-  #insContent{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#000;}
+  #insContent{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#0b0e13;}
   #insContent img{display:block;width:100%;}
-  #insLoading{position:absolute;inset:0;z-index:10;background:#000;}
+  #insLoading{position:absolute;inset:0;z-index:10;background:#0b0e13;}
   #insLoading img{display:block;width:100%;}
 </style>
 </head>
@@ -47,9 +48,9 @@
     <div class="screen" id="s-home" style="z-index:1">
       <div class="sheet">
         <video class="bg" autoplay muted loop playsinline>
-          <source src="screens/promo_placeholder.mp4?v=5" type="video/mp4">
+          <source src="screens/promo_placeholder.mp4?v=6" type="video/mp4">
         </video>
-        <img src="screens/home_chrome_c.png?v=5">
+        <img src="screens/home_chrome_c.png?v=6">
         <div class="hot" style="left:77.8%;top:91.2%;width:22.2%;height:8.8%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -57,7 +58,7 @@
     <!-- PROFILE -->
     <div class="screen" id="s-profile" style="transform:translateX(100%)">
       <div class="sheet">
-        <img src="screens/profile_c.png?v=5">
+        <img src="screens/profile_c.png?v=6">
         <div class="hot" style="left:5.6%;top:37.7%;width:88.9%;height:8.5%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -65,7 +66,7 @@
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard" style="transform:translateX(100%)">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=5">
+        <img id="dashImg" src="screens/dash_loaded_c.png?v=6">
         <div class="hot" style="left:5.6%;top:18%;width:94.4%;height:8%" onclick="goInsights()"></div>
       </div>
     </div>
@@ -73,12 +74,12 @@
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights" style="transform:translateX(100%)">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=5">
+        <img id="himg" src="insights_overview_header2.png?v=6">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=5"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=5"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=6"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=6"></div>
     </div>
 
   </div>
@@ -107,7 +108,7 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=5';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=6';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   let zTop = 2;
   const raise = id => { el(id).style.zIndex = ++zTop; };
