@@ -7,9 +7,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=7">
-<link rel="apple-touch-icon" href="icon.png?v=7">
+<link rel="manifest" href="manifest.json?v=8">
+<link rel="apple-touch-icon" href="icon.png?v=8">
 <title>Instagram</title>
+<script src="config.js?v=8"></script>
+<script src="glyphmeta.js?v=8"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
   html,body{background:#0b0e13;height:100%;overflow:hidden;font-family:-apple-system,"SF Pro Text",sans-serif;
@@ -28,6 +30,9 @@
   .sheet > img{display:block;height:100%;width:auto;max-width:100%;position:relative;z-index:1;}
   video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#4a2d6b;z-index:0;}
   .hot{position:absolute;background:transparent;z-index:5;}
+  /* live profile stat numbers drawn from real harvested digit-images */
+  #profileStats{position:absolute;inset:0;z-index:3;pointer-events:none;}
+  #profileStats img{position:absolute;-webkit-user-drag:none;}
 
   /* insights: header on top, scrollable content fills the rest */
   #s-insights{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;}
@@ -48,9 +53,9 @@
     <div class="screen" id="s-home" style="z-index:1">
       <div class="sheet">
         <video class="bg" autoplay muted loop playsinline>
-          <source src="screens/promo_placeholder.mp4?v=7" type="video/mp4">
+          <source src="screens/promo_placeholder.mp4?v=8" type="video/mp4">
         </video>
-        <img src="screens/home_chrome_c.png?v=7">
+        <img src="screens/home_chrome_c.png?v=8">
         <div class="hot" style="left:77.8%;top:91.2%;width:22.2%;height:8.8%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -58,7 +63,8 @@
     <!-- PROFILE -->
     <div class="screen" id="s-profile" style="transform:translateX(100%)">
       <div class="sheet">
-        <img src="screens/profile_c.png?v=7">
+        <img src="screens/profile_c.png?v=8">
+        <div id="profileStats"></div>
         <div class="hot" style="left:5.6%;top:37.7%;width:88.9%;height:8.5%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -66,7 +72,7 @@
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard" style="transform:translateX(100%)">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=7">
+        <img id="dashImg" src="screens/dash_loaded_c.png?v=8">
         <div class="hot" style="left:5.6%;top:18%;width:94.4%;height:8%" onclick="goInsights()"></div>
       </div>
     </div>
@@ -74,12 +80,12 @@
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights" style="transform:translateX(100%)">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=7">
+        <img id="himg" src="insights_overview_header2.png?v=8">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=7"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=7"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=8"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=8"></div>
     </div>
 
   </div>
@@ -98,6 +104,53 @@
     visualViewport.addEventListener('scroll', setH);
   }
 
+  // ---- live profile stat numbers (posts/followers/following) ----
+  // Values come from config.js (window.STATS); digits are the real harvested
+  // glyph images in glyphs/, positioned from glyphmeta.js. Edit config.js +
+  // refresh to change them - no rebuild, auto-centered over the labels.
+  function renderStats(){
+    const meta = window.GLYPH_META, cfg = window.STATS;
+    const sheet = document.querySelector('#s-profile .sheet');
+    const overlay = document.getElementById('profileStats');
+    if (!meta || !cfg || !sheet || !overlay) return;
+    const scale = sheet.clientWidth / meta.img_w;   // uniform: aspect preserved
+    if (!scale) return;
+    overlay.innerHTML = '';
+    const cap = meta.capPx * scale;
+    const baseline = meta.baselinePx * scale;
+    const gap = meta.gapPx * scale;
+    const capTop = baseline - cap;
+    for (const key in meta.stats){
+      const val = String((cfg[key] != null ? cfg[key] : ''));
+      const items = [];
+      let totalW = 0;
+      for (const ch of val){
+        const g = meta.glyphs[ch];
+        if (!g) continue;
+        const w = g.w * scale;
+        items.push({ g, w, h: g.h * scale, top: g.top * scale });
+        totalW += w;
+      }
+      if (items.length) totalW += gap * (items.length - 1);
+      let x = meta.stats[key].cx * scale - totalW / 2;   // center on label
+      for (const it of items){
+        const im = document.createElement('img');
+        im.src = 'glyphs/' + it.g.file + (window.ASSET_V || '');
+        im.style.left = x + 'px';
+        im.style.top = (capTop + it.top) + 'px';
+        im.style.width = it.w + 'px';
+        im.style.height = it.h + 'px';
+        overlay.appendChild(im);
+        x += it.w + gap;
+      }
+    }
+  }
+  window.renderStats = renderStats;
+  addEventListener('load', renderStats);
+  addEventListener('resize', renderStats);
+  if (window.visualViewport) visualViewport.addEventListener('resize', renderStats);
+  if (document.readyState !== 'loading') renderStats();
+
   // hard-disable zoom (iOS ignores user-scalable in some versions)
   document.addEventListener('gesturestart', e => e.preventDefault());
   document.addEventListener('gesturechange', e => e.preventDefault());
@@ -108,7 +161,7 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=7';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=8';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   let zTop = 2;
   const raise = id => { el(id).style.zIndex = ++zTop; };
@@ -125,6 +178,7 @@
     s.style.transition='none'; s.style.transform='translateX(0)'; s.style.opacity='0';
     s.getBoundingClientRect();
     s.style.transition='opacity .22s ease'; s.style.opacity='1';
+    renderStats();
   }
   function goDashboard(){
     el('dashImg').src = 'screens/dash_skeleton_c.png' + ASSET_V;
