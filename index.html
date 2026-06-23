@@ -15,18 +15,21 @@
   html,body{background:#000;height:100%;overflow:hidden;font-family:-apple-system,"SF Pro Text",sans-serif;
             touch-action:manipulation;-webkit-text-size-adjust:100%;}
   img,video{-webkit-user-drag:none;}
-  #app{position:fixed;inset:0;background:#000;}
+  /* height driven by the real visible viewport (JS sets --app-h); 100svh fallback */
+  #app{position:fixed;top:0;left:0;right:0;height:var(--app-h,100svh);background:#000;}
   #safetop{position:absolute;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:#000;z-index:1000;}
   #stage{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;bottom:0;overflow:hidden;background:#000;}
 
-  .screen{position:absolute;inset:0;background:#000;overflow:hidden;will-change:transform;}
-  .sheet{position:relative;width:100%;}
-  .sheet > img{display:block;width:100%;height:auto;position:relative;z-index:1;}
+  /* static screens center their sheet; the sheet fits entirely (contain) keeping proportions */
+  .screen{position:absolute;inset:0;background:#000;overflow:hidden;will-change:transform;
+          display:flex;align-items:center;justify-content:center;}
+  .sheet{position:relative;aspect-ratio:720/1468;height:100%;max-height:100%;max-width:100%;width:auto;margin:auto;}
+  .sheet > img{display:block;width:100%;height:100%;position:relative;z-index:1;}
   video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#4a2d6b;z-index:0;}
   .hot{position:absolute;background:transparent;z-index:5;}
 
   /* insights: header on top, scrollable content fills the rest */
-  #s-insights{display:flex;flex-direction:column;}
+  #s-insights{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;}
   #insHeader{position:relative;width:100%;flex:0 0 auto;z-index:5;}
   #insHeader img{display:block;width:100%;}
   #insContent{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#000;}
@@ -81,6 +84,19 @@
   </div>
 </div>
 <script>
+  // size the app to the REAL visible viewport (excludes Safari toolbars) so top+bottom always show
+  function setH(){
+    const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    document.documentElement.style.setProperty('--app-h', h + 'px');
+  }
+  setH();
+  addEventListener('resize', setH);
+  addEventListener('orientationchange', setH);
+  if (window.visualViewport){
+    visualViewport.addEventListener('resize', setH);
+    visualViewport.addEventListener('scroll', setH);
+  }
+
   // hard-disable zoom (iOS ignores user-scalable in some versions)
   document.addEventListener('gesturestart', e => e.preventDefault());
   document.addEventListener('gesturechange', e => e.preventDefault());
