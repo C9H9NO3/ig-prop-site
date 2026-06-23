@@ -34,8 +34,15 @@ http
         res.writeHead(404);
         return res.end("Not found");
       }
-      const type = TYPES[path.extname(filePath).toLowerCase()] || "application/octet-stream";
-      res.writeHead(200, { "Content-Type": type, "Cache-Control": "no-cache" });
+      const ext = path.extname(filePath).toLowerCase();
+      const type = TYPES[ext] || "application/octet-stream";
+      // app shell + manifest must never be cached so the phone always re-reads
+      // the (versioned) asset URLs; other assets are revalidated.
+      const noStore = ext === ".html" || ext === ".json";
+      res.writeHead(200, {
+        "Content-Type": type,
+        "Cache-Control": noStore ? "no-store, must-revalidate" : "no-cache",
+      });
       res.end(data);
     });
   })
