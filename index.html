@@ -7,35 +7,33 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=19">
-<link rel="apple-touch-icon" href="icon.png?v=19">
+<link rel="manifest" href="manifest.json?v=20">
+<link rel="apple-touch-icon" href="icon.png?v=20">
 <title>Instagram</title>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
-  html,body{background:#0d1115;height:100%;overflow:hidden;font-family:-apple-system,"SF Pro Text",sans-serif;
-            touch-action:manipulation;-webkit-text-size-adjust:100%;}
+  /* NORMAL-FLOW document (the working-reference pattern): min-height:100dvh, the page
+     flows; we do NOT lock with position:fixed/height:100dvh/overflow:hidden (that was
+     fighting iOS's safe-area placement and leaving the on-device bottom gap). */
+  html{background:#0d1115;-webkit-text-size-adjust:100%;}
+  body{background:#0d1115;min-height:100dvh;overflow-x:hidden;
+       font-family:-apple-system,"SF Pro Text",sans-serif;touch-action:manipulation;}
   img,video{-webkit-user-drag:none;}
-  /* fill the ENTIRE device incl. under the home indicator: position:fixed;inset:0
-     resolves to the safe-area viewport in an iOS standalone PWA (excludes the
-     home-indicator zone), which left a dark band at the bottom. 100dvh forces the
-     true full screen so the baked margins land where they should. */
-  #app{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;background:#0d1115;}
-  #safetop{display:none;}                 /* status strip is baked into the screen images now */
-  #stage{position:absolute;inset:0;overflow:hidden;background:#0d1115;}
+  #app{position:relative;min-height:100dvh;background:#0d1115;overflow-x:hidden;}
+  #stage{position:relative;min-height:100dvh;background:#0d1115;}
 
-  /* static screens: full-bleed cover so they fill edge-to-edge on every device
-     (images already match the iPhone aspect, so cover crops ~0px) */
-  .screen{position:absolute;inset:0;background:#0d1115;overflow:hidden;will-change:transform;}
-  .sheet{position:absolute;inset:0;}
-  .sheet > img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;position:relative;z-index:1;}
+  /* one screen visible at a time; the active screen flows (sets the document height) */
+  .screen{display:none;width:100%;background:#0d1115;position:relative;}
+  .screen.active{display:block;}
+  .screen.animating{position:absolute;top:0;left:0;z-index:50;}  /* only during a transition */
+  /* nav screens reserve the home-indicator zone (dark) below the nav, like the
+     reference's env(safe-area-inset-bottom) padding -> nav clears the indicator */
+  .screen.navpad{padding-bottom:env(safe-area-inset-bottom,0px);}
+
+  .sheet{position:relative;width:100%;}
+  .sheet > img{display:block;width:100%;height:auto;position:relative;z-index:1;}
   video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d1115;z-index:0;}
-  /* NAV SCREENS (home/profile): pin the image's bottom (the nav bar) to the bottom
-     of the viewport, so the nav always sits just above the home indicator - no empty
-     gap below it and never clipped - whatever the device's safe-area inset is. The
-     image is shown full-width at natural height; the top can overflow into the dark
-     status zone harmlessly. Hotspots live inside .snap so they track the image. */
-  .sheet.snap{top:auto;bottom:0;height:auto;}
-  .sheet.snap > img{height:auto;object-fit:fill;}
   .hot{position:absolute;background:transparent;z-index:5;}
   /* passive build-version label (home only) so the live deploy is identifiable */
   #ver{position:absolute;top:calc(env(safe-area-inset-top,8px) + 6px);left:50%;transform:translateX(-50%);
@@ -45,58 +43,56 @@
   #profileStats{position:absolute;inset:0;z-index:3;pointer-events:none;}
   #profileStats img{position:absolute;-webkit-user-drag:none;}
 
-  /* insights: header on top, scrollable content fills the rest */
-  #s-insights{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;}
-  #insHeader{position:relative;width:100%;flex:0 0 auto;z-index:5;}
+  /* insights: header + content stacked; the whole screen scrolls naturally */
+  #insHeader{position:relative;width:100%;z-index:5;}
   #insHeader img{display:block;width:100%;}
-  #insContent{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#0d1115;}
+  #insContent{width:100%;background:#0d1115;}
   #insContent img{display:block;width:100%;}
-  #insLoading{position:absolute;inset:0;z-index:10;background:#0d1115;}
+  #insLoading{position:fixed;inset:0;z-index:10;background:#0d1115;display:none;}
   #insLoading img{display:block;width:100%;}
 </style>
 </head>
 <body>
 <div id="app">
-  <div id="safetop"></div>
   <div id="stage">
 
     <!-- HOME -->
-    <div class="screen" id="s-home" style="z-index:1">
+    <div class="screen navpad active" id="s-home">
       <div id="ver"></div>
-      <div class="sheet snap">
+      <div class="sheet">
         <video class="bg" autoplay muted loop playsinline>
-          <source src="screens/promo_placeholder.mp4?v=19" type="video/mp4">
+          <source src="screens/promo_placeholder.mp4?v=20" type="video/mp4">
         </video>
-        <img src="screens/home_chrome_c.png?v=19">
+        <img src="screens/home_chrome_c.png?v=20">
         <div class="hot" style="left:76%;top:89%;width:24%;height:10%" onclick="goProfile()"></div>
       </div>
     </div>
 
     <!-- PROFILE -->
-    <div class="screen" id="s-profile" style="transform:translateX(100%)">
-      <div class="sheet snap">
-        <img src="screens/profile_c.png?v=19">
+    <div class="screen navpad" id="s-profile">
+      <div class="sheet">
+        <img src="screens/profile_c.png?v=20">
         <div class="hot" style="left:4%;top:40%;width:92%;height:8%" onclick="goDashboard()"></div>
       </div>
     </div>
 
     <!-- DASHBOARD -->
-    <div class="screen" id="s-dashboard" style="transform:translateX(100%)">
+    <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=19">
+        <img id="dashImg" src="screens/dash_loaded_c.png?v=20">
         <div class="hot" style="left:5.6%;top:18%;width:94.4%;height:8%" onclick="goInsights()"></div>
       </div>
     </div>
 
     <!-- INSIGHTS -->
-    <div class="screen" id="s-insights" style="transform:translateX(100%)">
+    <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=19">
+        <img id="himg" src="insights_overview_header2.png?v=20">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=19"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=19"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=20"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=20"></div>
     </div>
 
   </div>
@@ -159,37 +155,52 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=19';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=20';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   { const v = el('ver'); if (v) v.textContent = 'BUILD ' + ASSET_V.replace('?v=', 'v'); }
-  let zTop = 2;
-  const raise = id => { el(id).style.zIndex = ++zTop; };
 
-  function push(id){
-    const s = el(id); raise(id);
-    s.style.transition = 'none'; s.style.transform = 'translateX(100%)';
-    s.getBoundingClientRect();
-    s.style.transition = 'transform .34s cubic-bezier(.3,.7,.3,1)';
-    s.style.transform = 'translateX(0)';
+  // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
+  // the document height and iOS places the safe areas naturally). Transitions overlay
+  // the incoming screen absolutely just for the animation, then it settles into flow.
+  let current = 's-home';
+  function go(id, mode){
+    if (id === current) return;
+    const incoming = el(id), outgoing = el(current);
+    incoming.classList.add('active', 'animating');
+    if (mode === 'fade'){
+      incoming.style.opacity = '0';
+      incoming.getBoundingClientRect();
+      incoming.style.transition = 'opacity .22s ease';
+      incoming.style.opacity = '1';
+    } else {                       // slide (iOS push)
+      incoming.style.transform = 'translateX(100%)';
+      incoming.getBoundingClientRect();
+      incoming.style.transition = 'transform .34s cubic-bezier(.3,.7,.3,1)';
+      incoming.style.transform = 'translateX(0)';
+    }
+    const done = () => {
+      incoming.removeEventListener('transitionend', done);
+      incoming.classList.remove('animating');
+      incoming.style.transition = incoming.style.transform = incoming.style.opacity = '';
+      if (outgoing !== incoming){ outgoing.classList.remove('active'); outgoing.style.cssText = ''; }
+      current = id;
+      window.scrollTo(0, 0);
+    };
+    incoming.addEventListener('transitionend', done);
+    setTimeout(() => { if (current !== id) done(); }, 700);  // safety
   }
-  function goProfile(){
-    const s = el('s-profile'); raise('s-profile');
-    s.style.transition='none'; s.style.transform='translateX(0)'; s.style.opacity='0';
-    s.getBoundingClientRect();
-    s.style.transition='opacity .22s ease'; s.style.opacity='1';
-    renderStats();
-  }
+
+  function goProfile(){ go('s-profile', 'fade'); renderStats(); }
   function goDashboard(){
     el('dashImg').src = 'screens/dash_skeleton_c.png' + ASSET_V;
-    push('s-dashboard');
+    go('s-dashboard', 'slide');
     setTimeout(() => { el('dashImg').src = 'screens/dash_loaded_c.png' + ASSET_V; }, 850);
   }
   function goInsights(){
     insTab('overview', true);
-    el('insContent').scrollTop = 0;
     const ld = el('insLoading'); ld.style.display = 'block';
     el('loadImg').src = 'screens/ins_spinner_c.png' + ASSET_V;
-    push('s-insights');
+    go('s-insights', 'slide');
     setTimeout(() => { el('loadImg').src = 'screens/ins_skeleton_c.png' + ASSET_V; }, 650);
     setTimeout(() => { ld.style.display = 'none'; }, 1350);
   }
