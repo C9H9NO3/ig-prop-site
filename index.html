@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=18">
-<link rel="apple-touch-icon" href="icon.png?v=18">
+<link rel="manifest" href="manifest.json?v=19">
+<link rel="apple-touch-icon" href="icon.png?v=19">
 <title>Instagram</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
@@ -27,12 +27,15 @@
      (images already match the iPhone aspect, so cover crops ~0px) */
   .screen{position:absolute;inset:0;background:#0d1115;overflow:hidden;will-change:transform;}
   .sheet{position:absolute;inset:0;}
-  /* cover = always full-bleed (no side bars). The PWA viewport is the safe area
-     (slightly wider aspect than the screenshot), so cover fills it and trims a thin
-     sliver of the dark top/bottom safe zones - never the nav or header (the home
-     image's 150px bottom zone + 210px top zone absorb the trim). */
   .sheet > img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;position:relative;z-index:1;}
   video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d1115;z-index:0;}
+  /* NAV SCREENS (home/profile): pin the image's bottom (the nav bar) to the bottom
+     of the viewport, so the nav always sits just above the home indicator - no empty
+     gap below it and never clipped - whatever the device's safe-area inset is. The
+     image is shown full-width at natural height; the top can overflow into the dark
+     status zone harmlessly. Hotspots live inside .snap so they track the image. */
+  .sheet.snap{top:auto;bottom:0;height:auto;}
+  .sheet.snap > img{height:auto;object-fit:fill;}
   .hot{position:absolute;background:transparent;z-index:5;}
   /* passive build-version label (home only) so the live deploy is identifiable */
   #ver{position:absolute;top:calc(env(safe-area-inset-top,8px) + 6px);left:50%;transform:translateX(-50%);
@@ -59,28 +62,28 @@
 
     <!-- HOME -->
     <div class="screen" id="s-home" style="z-index:1">
-      <div class="sheet">
+      <div id="ver"></div>
+      <div class="sheet snap">
         <video class="bg" autoplay muted loop playsinline>
-          <source src="screens/promo_placeholder.mp4?v=18" type="video/mp4">
+          <source src="screens/promo_placeholder.mp4?v=19" type="video/mp4">
         </video>
-        <img src="screens/home_chrome_c.png?v=18">
-        <div id="ver"></div>
-        <div class="hot" style="left:77.8%;top:85.5%;width:22.2%;height:10%" onclick="goProfile()"></div>
+        <img src="screens/home_chrome_c.png?v=19">
+        <div class="hot" style="left:76%;top:89%;width:24%;height:10%" onclick="goProfile()"></div>
       </div>
     </div>
 
     <!-- PROFILE -->
     <div class="screen" id="s-profile" style="transform:translateX(100%)">
-      <div class="sheet">
-        <img src="screens/profile_c.png?v=18">
-        <div class="hot" style="left:5.6%;top:37.7%;width:88.9%;height:8.5%" onclick="goDashboard()"></div>
+      <div class="sheet snap">
+        <img src="screens/profile_c.png?v=19">
+        <div class="hot" style="left:4%;top:40%;width:92%;height:8%" onclick="goDashboard()"></div>
       </div>
     </div>
 
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard" style="transform:translateX(100%)">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=18">
+        <img id="dashImg" src="screens/dash_loaded_c.png?v=19">
         <div class="hot" style="left:5.6%;top:18%;width:94.4%;height:8%" onclick="goInsights()"></div>
       </div>
     </div>
@@ -88,12 +91,12 @@
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights" style="transform:translateX(100%)">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=18">
+        <img id="himg" src="insights_overview_header2.png?v=19">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=18"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=18"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=19"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=19"></div>
     </div>
 
   </div>
@@ -156,7 +159,7 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=18';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=19';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   { const v = el('ver'); if (v) v.textContent = 'BUILD ' + ASSET_V.replace('?v=', 'v'); }
   let zTop = 2;
