@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=20">
-<link rel="apple-touch-icon" href="icon.png?v=20">
+<link rel="manifest" href="manifest.json?v=21">
+<link rel="apple-touch-icon" href="icon.png?v=21">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -57,21 +57,18 @@
   <div id="stage">
 
     <!-- HOME -->
-    <div class="screen navpad active" id="s-home">
+    <div class="screen active" id="s-home">
       <div id="ver"></div>
       <div class="sheet">
-        <video class="bg" autoplay muted loop playsinline>
-          <source src="screens/promo_placeholder.mp4?v=20" type="video/mp4">
-        </video>
-        <img src="screens/home_chrome_c.png?v=20">
-        <div class="hot" style="left:76%;top:89%;width:24%;height:10%" onclick="goProfile()"></div>
+        <img src="screens/home_chrome_c.png?v=21">
+        <div class="hot" style="left:85%;top:90.5%;width:15%;height:6%" onclick="goProfile()"></div>
       </div>
     </div>
 
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/profile_c.png?v=20">
+        <img src="screens/profile_c.png?v=21">
         <div class="hot" style="left:4%;top:40%;width:92%;height:8%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -79,7 +76,7 @@
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=20">
+        <img id="dashImg" src="screens/dash_loaded_c.png?v=21">
         <div class="hot" style="left:5.6%;top:18%;width:94.4%;height:8%" onclick="goInsights()"></div>
       </div>
     </div>
@@ -87,12 +84,12 @@
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=20">
+        <img id="himg" src="insights_overview_header2.png?v=21">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=20"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=20"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=21"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=21"></div>
     </div>
 
   </div>
@@ -155,7 +152,7 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=20';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=21';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   { const v = el('ver'); if (v) v.textContent = 'BUILD ' + ASSET_V.replace('?v=', 'v'); }
 
