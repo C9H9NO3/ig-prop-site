@@ -3,7 +3,7 @@
 // would show old builds even after a deploy, while Safari showed the new one).
 // With network-first, an online launch ALWAYS fetches the current files; the cache
 // is only a fallback when offline. Bump CACHE on each deploy so old caches are purged.
-const CACHE = 'ig-v38';
+const CACHE = 'ig-v39';
 
 self.addEventListener('install', () => self.skipWaiting());
 

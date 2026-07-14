@@ -9,8 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new1.json?v=38">
-<link rel="apple-touch-icon" href="icon.png?v=38">
+<link rel="manifest" href="manifest_new1.json?v=39">
+<link rel="apple-touch-icon" href="icon.png?v=39">
+<!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
+     loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
+<link rel="apple-touch-startup-image" media="(device-width:430px) and (device-height:932px) and (-webkit-device-pixel-ratio:3)" href="launch_1290x2796.png?v=39">
+<link rel="apple-touch-startup-image" media="(device-width:393px) and (device-height:852px) and (-webkit-device-pixel-ratio:3)" href="launch_1179x2556.png?v=39">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());}</script>
 <style>
@@ -28,7 +32,7 @@
      so Safari (inset 0) shows no dead band above the header. */
   #hdr{position:sticky;top:0;z-index:10;
        padding-top:env(safe-area-inset-top,0px);
-       background:#090e10 url(screens/n_hdr_bg.png?v=38) repeat-y;background-size:100% 3px;}
+       background:#090e10 url(screens/n_hdr_bg.png?v=39) repeat-y;background-size:100% 3px;}
   /* dark pad below the content so the very bottom scrolls clear of the home indicator */
   #pad{height:env(safe-area-inset-bottom,0px);background:#0c1014;}
   /* Audience details section: two variants stacked, Age/Country pills toggle which
@@ -56,14 +60,14 @@
 </head>
 <body style="background:#000">
   <div id="splash">
-    <img class="slogo" src="screens/splash_logo.png?v=38" alt="">
-    <img class="smeta" src="screens/splash_meta.png?v=38" alt="">
+    <img class="slogo" src="screens/splash_logo.png?v=39" alt="">
+    <img class="smeta" src="screens/splash_meta.png?v=39" alt="">
   </div>
-  <div id="hdr"><img src="screens/n_reel_header.png?v=38" alt=""></div>
-  <img src="screens/n_reel_top.png?v=38" alt="">
+  <div id="hdr"><img src="screens/n_reel_header.png?v=39" alt=""></div>
+  <img src="screens/n_reel_top.png?v=39" alt="">
   <div id="aud">
-    <img id="audAge" src="screens/n_aud_age.png?v=38" alt="" style="display:none">
-    <img id="audCty" src="screens/n_aud_country.png?v=38" alt="">
+    <img id="audAge" src="screens/n_aud_age.png?v=39" alt="" style="display:none">
+    <img id="audCty" src="screens/n_aud_country.png?v=39" alt="">
     <div class="hot" style="left:2.5%;width:15%;top:2.3vw;height:10.6vw" onclick="aud('age')"></div>
     <div class="hot" style="left:17.5%;width:20%;top:2.3vw;height:10.6vw" onclick="aud('cty')"></div>
   </div>
