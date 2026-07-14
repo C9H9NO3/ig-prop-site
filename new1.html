@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new1.json?v=27">
-<link rel="apple-touch-icon" href="icon.png?v=27">
+<link rel="manifest" href="manifest_new1.json?v=28">
+<link rel="apple-touch-icon" href="icon.png?v=28">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -30,19 +30,26 @@
      pixel position regardless of which (different-height) variant is visible. */
   #aud{position:relative;}
   .hot{position:absolute;background:transparent;z-index:5;}
+  /* passive build-version label, same styling as the main app's */
+  #ver{position:absolute;top:calc(env(safe-area-inset-top,8px) + 6px);left:50%;transform:translateX(-50%);
+       z-index:60;opacity:.5;pointer-events:none;color:#fff;font:600 12px/1 -apple-system,monospace;
+       letter-spacing:.5px;text-shadow:0 1px 2px rgba(0,0,0,.6);}
 </style>
 </head>
 <body>
-  <div id="hdr"><img src="screens/n_reel_header.png?v=27" alt=""></div>
-  <img src="screens/n_reel_top.png?v=27" alt="">
+  <div id="hdr"><img src="screens/n_reel_header.png?v=28" alt=""><div id="ver"></div></div>
+  <img src="screens/n_reel_top.png?v=28" alt="">
   <div id="aud">
-    <img id="audAge" src="screens/n_aud_age.png?v=27" alt="" style="display:none">
-    <img id="audCty" src="screens/n_aud_country.png?v=27" alt="">
+    <img id="audAge" src="screens/n_aud_age.png?v=28" alt="" style="display:none">
+    <img id="audCty" src="screens/n_aud_country.png?v=28" alt="">
     <div class="hot" style="left:2.5%;width:15%;top:2.3vw;height:10.6vw" onclick="aud('age')"></div>
     <div class="hot" style="left:17.5%;width:20%;top:2.3vw;height:10.6vw" onclick="aud('cty')"></div>
   </div>
   <div id="pad"></div>
 <script>
+  // label always reflects the ?v= the page actually loaded, so a stale cache is obvious
+  document.getElementById('ver').textContent =
+    'BUILD v' + document.querySelector('#hdr img').src.match(/v=(\d+)/)[1];
   function aud(which){
     document.getElementById('audAge').style.display = which === 'age' ? 'block' : 'none';
     document.getElementById('audCty').style.display = which === 'cty' ? 'block' : 'none';
