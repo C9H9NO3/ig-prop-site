@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=31">
-<link rel="apple-touch-icon" href="icon.png?v=31">
+<link rel="manifest" href="manifest_new.json?v=32">
+<link rel="apple-touch-icon" href="icon.png?v=32">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -53,6 +53,20 @@
   #insLoading{position:fixed;inset:0;z-index:10;background:#0d1115;display:none;}
   #insLoading img{display:block;width:100%;}
 
+  /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
+     pattern) + stitched content + swipe-snap Audience carousel */
+  #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
+          background:#0c1115 url(screens/n_int_hdr_bg.png?v=32) repeat-y;background-size:100% 3px;}
+  #intHdr img{display:block;width:100%;}
+  /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
+     viewport). Drag and release -> the card settles into place; ends clamp. */
+  #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+           -webkit-overflow-scrolling:touch;background:#0c1115;}
+  #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/683;
+            background:url(screens/n_aud_strip.png?v=32) no-repeat;background-size:100% 100%;}
+  #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
+  #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
+
   /* Instagram launch splash: shown on every open, holds 1.5s then fades out over .8s.
      Geometry measured from the real launch screen (logo 23.1% wide at 46.5% height,
      "from Meta" 21.4% wide near the bottom). */
@@ -64,8 +78,8 @@
 </head>
 <body>
 <div id="splash">
-  <img class="slogo" src="screens/splash_logo.png?v=31" alt="">
-  <img class="smeta" src="screens/splash_meta.png?v=31" alt="">
+  <img class="slogo" src="screens/splash_logo.png?v=32" alt="">
+  <img class="smeta" src="screens/splash_meta.png?v=32" alt="">
 </div>
 <div id="app">
   <div id="stage">
@@ -74,7 +88,7 @@
     <div class="screen active" id="s-home">
       <div id="ver"></div>
       <div class="sheet">
-        <img src="screens/n_home.png?v=31">
+        <img src="screens/n_home.png?v=32">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -82,7 +96,7 @@
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=31">
+        <img src="screens/n_profile.png?v=32">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -90,22 +104,37 @@
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=31">
-        <!-- Views row -> insights; Interactions / New followers / Content rows get
-             their own pages when those screenshots arrive -->
+        <img id="dashImg" src="screens/n_dash.png?v=32">
+        <!-- Views row -> insights; Interactions row -> interactions page -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
+        <div class="hot" style="left:0;top:22.6%;width:100%;height:4.8%" onclick="goInteractions()"></div>
       </div>
+    </div>
+
+    <!-- INTERACTIONS -->
+    <div class="screen navpad" id="s-interactions">
+      <div id="intHdr">
+        <img src="screens/n_int_header.png?v=32">
+        <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
+      </div>
+      <div class="sheet">
+        <img src="screens/n_int_top.png?v=32">
+      </div>
+      <div id="audSnap">
+        <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
+      </div>
+      <div style="height:90px;background:#0c1115"></div>
     </div>
 
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=31">
+        <img id="himg" src="insights_overview_header2.png?v=32">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=31"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=31"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=32"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=32"></div>
     </div>
 
   </div>
@@ -175,7 +204,7 @@
     setTimeout(() => s.remove(), 900);
   }, 1500);
 
-  const ASSET_V = '?v=31';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=32';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   { const v = el('ver'); if (v) v.textContent = 'NEW ' + ASSET_V.replace('?v=', 'v'); }
 
@@ -188,6 +217,24 @@
     if (id === current || navBusy) return;
     navBusy = true;
     const incoming = el(id), outgoing = el(current);
+    if (mode === 'back'){        // iOS pop: current screen slides out to the right
+      window.scrollTo(0, 0);
+      incoming.classList.add('active');            // settles into flow underneath
+      outgoing.classList.add('animating');         // overlays on top while leaving
+      outgoing.style.transition = 'transform .34s cubic-bezier(.3,.7,.3,1)';
+      outgoing.getBoundingClientRect();
+      outgoing.style.transform = 'translateX(100%)';
+      const doneB = () => {
+        outgoing.removeEventListener('transitionend', doneB);
+        outgoing.classList.remove('active', 'animating');
+        outgoing.style.cssText = '';
+        current = id;
+        navBusy = false;
+      };
+      outgoing.addEventListener('transitionend', doneB);
+      setTimeout(() => { if (current !== id) doneB(); }, 700);
+      return;
+    }
     incoming.classList.add('active', 'animating');
     if (mode === 'fade'){
       incoming.style.opacity = '0';
@@ -219,6 +266,11 @@
     // showed the retired 4-video layout and would flash a mismatched frame)
     go('s-dashboard', 'slide');
   }
+  function goInteractions(){
+    el('audSnap').scrollLeft = 0;          // always open on Top cities
+    go('s-interactions', 'slide');
+  }
+  function goBackDash(){ go('s-dashboard', 'back'); }
   function goInsights(){
     insTab('overview', true);
     const ld = el('insLoading'); ld.style.display = 'block';
