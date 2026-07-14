@@ -1,0 +1,12 @@
+{
+  "name": "Instagram",
+  "short_name": "Instagram",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "start_url": "/1",
+  "icons": [
+    { "src": "icon.png?v=23", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

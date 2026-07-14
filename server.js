@@ -22,6 +22,7 @@ http
   .createServer((req, res) => {
     let urlPath = decodeURIComponent(req.url.split("?")[0]);
     if (urlPath === "/") urlPath = "/index.html";
+    if (urlPath === "/1") urlPath = "/one.html";   // standalone reel-insights page
     // prevent path traversal
     const safe = path.normalize(urlPath).replace(/^([/\\.]+)/, "");
     const filePath = path.join(ROOT, safe);
