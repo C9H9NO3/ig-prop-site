@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new1.json?v=25">
-<link rel="apple-touch-icon" href="icon.png?v=25">
+<link rel="manifest" href="manifest_new1.json?v=26">
+<link rel="apple-touch-icon" href="icon.png?v=26">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -24,13 +24,29 @@
   #hdr{position:sticky;top:0;z-index:10;background:#0c1014;}
   /* dark pad below the content so the very bottom scrolls clear of the home indicator */
   #pad{height:env(safe-area-inset-bottom,0px);background:#0c1014;}
+  /* Audience details section: two variants stacked, Age/Country pills toggle which
+     one shows. Instant in-place swap (both preloaded) = no reload, no scroll jump,
+     exactly like the real app. Hotspot tops/heights in vw so they track the pills'
+     pixel position regardless of which (different-height) variant is visible. */
+  #aud{position:relative;}
+  .hot{position:absolute;background:transparent;z-index:5;}
 </style>
 </head>
 <body>
-  <div id="hdr"><img src="screens/n_reel_header.png?v=25" alt=""></div>
-  <img src="screens/n_reel_full.png?v=25" alt="">
+  <div id="hdr"><img src="screens/n_reel_header.png?v=26" alt=""></div>
+  <img src="screens/n_reel_top.png?v=26" alt="">
+  <div id="aud">
+    <img id="audAge" src="screens/n_aud_age.png?v=26" alt="" style="display:none">
+    <img id="audCty" src="screens/n_aud_country.png?v=26" alt="">
+    <div class="hot" style="left:2.5%;width:15%;top:2.3vw;height:10.6vw" onclick="aud('age')"></div>
+    <div class="hot" style="left:17.5%;width:20%;top:2.3vw;height:10.6vw" onclick="aud('cty')"></div>
+  </div>
   <div id="pad"></div>
 <script>
+  function aud(which){
+    document.getElementById('audAge').style.display = which === 'age' ? 'block' : 'none';
+    document.getElementById('audCty').style.display = which === 'cty' ? 'block' : 'none';
+  }
   // hard-disable zoom (iOS ignores user-scalable in some versions)
   document.addEventListener('gesturestart', e => e.preventDefault());
   document.addEventListener('gesturechange', e => e.preventDefault());
