@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=25">
+<link rel="manifest" href="manifest_new.json?v=25">
 <link rel="apple-touch-icon" href="icon.png?v=25">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
@@ -62,23 +62,23 @@
     <div class="screen active" id="s-home">
       <div id="ver"></div>
       <div class="sheet">
-        <img src="screens/home_chrome_c.png?v=25">
-        <div class="hot" style="left:85%;top:90.5%;width:15%;height:6%" onclick="goProfile()"></div>
+        <img src="screens/n_home.png?v=25">
+        <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
 
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/profile_c.png?v=25">
-        <div class="hot" style="left:3%;top:33%;width:94%;height:7%" onclick="goDashboard()"></div>
+        <img src="screens/n_profile.png?v=25">
+        <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
 
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=25">
+        <img id="dashImg" src="screens/n_dash.png?v=25">
         <!-- Views row -> insights; Interactions / New followers / Content rows get
              their own pages when those screenshots arrive -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
@@ -158,7 +158,7 @@
 
   const ASSET_V = '?v=25';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
-  { const v = el('ver'); if (v) v.textContent = 'BUILD ' + ASSET_V.replace('?v=', 'v'); }
+  { const v = el('ver'); if (v) v.textContent = 'NEW ' + ASSET_V.replace('?v=', 'v'); }
 
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay

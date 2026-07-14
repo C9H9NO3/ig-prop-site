@@ -23,6 +23,8 @@ http
     let urlPath = decodeURIComponent(req.url.split("?")[0]);
     if (urlPath === "/") urlPath = "/index.html";
     if (urlPath === "/1") urlPath = "/one.html";   // standalone reel-insights page
+    if (urlPath === "/new") urlPath = "/new.html";   // full-res main flow
+    if (urlPath === "/new1") urlPath = "/new1.html"; // full-res reel insights
     // prevent path traversal
     const safe = path.normalize(urlPath).replace(/^([/\\.]+)/, "");
     const filePath = path.join(ROOT, safe);
