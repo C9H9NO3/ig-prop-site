@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=25">
-<link rel="apple-touch-icon" href="icon.png?v=25">
+<link rel="manifest" href="manifest_new.json?v=31">
+<link rel="apple-touch-icon" href="icon.png?v=31">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -52,9 +52,21 @@
   #insContent img{display:block;width:100%;}
   #insLoading{position:fixed;inset:0;z-index:10;background:#0d1115;display:none;}
   #insLoading img{display:block;width:100%;}
+
+  /* Instagram launch splash: shown on every open, holds 1.5s then fades out over .8s.
+     Geometry measured from the real launch screen (logo 23.1% wide at 46.5% height,
+     "from Meta" 21.4% wide near the bottom). */
+  #splash{position:fixed;inset:0;z-index:100;background:#000;opacity:1;transition:opacity .8s ease;}
+  #splash.gone{opacity:0;pointer-events:none;}
+  #splash .slogo{position:absolute;left:50%;top:46.5%;transform:translate(-50%,-50%);width:23.1%;}
+  #splash .smeta{position:absolute;left:50%;bottom:6.9%;transform:translateX(-50%);width:21.4%;}
 </style>
 </head>
 <body>
+<div id="splash">
+  <img class="slogo" src="screens/splash_logo.png?v=31" alt="">
+  <img class="smeta" src="screens/splash_meta.png?v=31" alt="">
+</div>
 <div id="app">
   <div id="stage">
 
@@ -62,7 +74,7 @@
     <div class="screen active" id="s-home">
       <div id="ver"></div>
       <div class="sheet">
-        <img src="screens/n_home.png?v=25">
+        <img src="screens/n_home.png?v=31">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -70,7 +82,7 @@
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=25">
+        <img src="screens/n_profile.png?v=31">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -78,7 +90,7 @@
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=25">
+        <img id="dashImg" src="screens/n_dash.png?v=31">
         <!-- Views row -> insights; Interactions / New followers / Content rows get
              their own pages when those screenshots arrive -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
@@ -88,12 +100,12 @@
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=25">
+        <img id="himg" src="insights_overview_header2.png?v=31">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=25"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=25"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=31"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=31"></div>
     </div>
 
   </div>
@@ -156,7 +168,14 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=25';   // bump when any screen image changes (cache-bust mobile)
+  // launch splash: hold 1.5s, fade .8s, then remove so it can't block taps
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    s.classList.add('gone');
+    setTimeout(() => s.remove(), 900);
+  }, 1500);
+
+  const ASSET_V = '?v=31';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   { const v = el('ver'); if (v) v.textContent = 'NEW ' + ASSET_V.replace('?v=', 'v'); }
 

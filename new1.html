@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new1.json?v=30">
-<link rel="apple-touch-icon" href="icon.png?v=30">
+<link rel="manifest" href="manifest_new1.json?v=31">
+<link rel="apple-touch-icon" href="icon.png?v=31">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -26,7 +26,7 @@
      so Safari (inset 0) shows no dead band above the header. */
   #hdr{position:sticky;top:0;z-index:10;
        padding-top:env(safe-area-inset-top,0px);
-       background:#090e10 url(screens/n_hdr_bg.png?v=30) repeat-y;background-size:100% 3px;}
+       background:#090e10 url(screens/n_hdr_bg.png?v=31) repeat-y;background-size:100% 3px;}
   /* dark pad below the content so the very bottom scrolls clear of the home indicator */
   #pad{height:env(safe-area-inset-bottom,0px);background:#0c1014;}
   /* Audience details section: two variants stacked, Age/Country pills toggle which
@@ -35,6 +35,11 @@
      pixel position regardless of which (different-height) variant is visible. */
   #aud{position:relative;}
   .hot{position:absolute;background:transparent;z-index:5;}
+  /* Instagram launch splash: shown on every open, holds 1.5s then fades out over .8s */
+  #splash{position:fixed;inset:0;z-index:100;background:#000;opacity:1;transition:opacity .8s ease;}
+  #splash.gone{opacity:0;pointer-events:none;}
+  #splash .slogo{position:absolute;left:50%;top:46.5%;transform:translate(-50%,-50%);width:23.1%;}
+  #splash .smeta{position:absolute;left:50%;bottom:6.9%;transform:translateX(-50%);width:21.4%;}
   /* passive build-version label, same styling as the main app's */
   #ver{position:absolute;top:calc(env(safe-area-inset-top,8px) + 6px);left:50%;transform:translateX(-50%);
        z-index:60;opacity:.5;pointer-events:none;color:#fff;font:600 12px/1 -apple-system,monospace;
@@ -42,16 +47,27 @@
 </style>
 </head>
 <body>
-  <div id="hdr"><img src="screens/n_reel_header.png?v=30" alt=""><div id="ver"></div></div>
-  <img src="screens/n_reel_top.png?v=30" alt="">
+  <div id="splash">
+    <img class="slogo" src="screens/splash_logo.png?v=31" alt="">
+    <img class="smeta" src="screens/splash_meta.png?v=31" alt="">
+  </div>
+  <div id="hdr"><img src="screens/n_reel_header.png?v=31" alt=""><div id="ver"></div></div>
+  <img src="screens/n_reel_top.png?v=31" alt="">
   <div id="aud">
-    <img id="audAge" src="screens/n_aud_age.png?v=30" alt="" style="display:none">
-    <img id="audCty" src="screens/n_aud_country.png?v=30" alt="">
+    <img id="audAge" src="screens/n_aud_age.png?v=31" alt="" style="display:none">
+    <img id="audCty" src="screens/n_aud_country.png?v=31" alt="">
     <div class="hot" style="left:2.5%;width:15%;top:2.3vw;height:10.6vw" onclick="aud('age')"></div>
     <div class="hot" style="left:17.5%;width:20%;top:2.3vw;height:10.6vw" onclick="aud('cty')"></div>
   </div>
   <div id="pad"></div>
 <script>
+  // launch splash: hold 1.5s, fade .8s, then remove so it can't block taps
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    s.classList.add('gone');
+    setTimeout(() => s.remove(), 900);
+  }, 1500);
+
   // label always reflects the ?v= the page actually loaded, so a stale cache is obvious
   document.getElementById('ver').textContent =
     'BUILD v' + document.querySelector('#hdr img').src.match(/v=(\d+)/)[1];
