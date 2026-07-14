@@ -1,5 +1,9 @@
 <!doctype html>
-<html lang="en">
+<!-- html/body start BLACK (inline, so it holds from the very first paint): during
+     PWA launch iOS paints the page background in areas no element covers yet (the
+     gray strip under the home indicator). Black = invisible against the splash.
+     The splash-removal script restores the app tone afterwards. -->
+<html lang="en" style="background:#000">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -7,8 +11,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=36">
-<link rel="apple-touch-icon" href="icon.png?v=36">
+<link rel="manifest" href="manifest_new.json?v=37">
+<link rel="apple-touch-icon" href="icon.png?v=37">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -52,14 +56,14 @@
   /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
      pattern) + stitched content + swipe-snap Audience carousel */
   #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
-          background:#0c1115 url(screens/n_int_hdr_bg.png?v=36) repeat-y;background-size:100% 3px;}
+          background:#0c1115 url(screens/n_int_hdr_bg.png?v=37) repeat-y;background-size:100% 3px;}
   #intHdr img{display:block;width:100%;}
   /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
      viewport). Drag and release -> the card settles into place; ends clamp. */
   #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
            -webkit-overflow-scrolling:touch;background:#0c1115;}
   #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/685;
-            background:url(screens/n_aud_strip.png?v=36) no-repeat;background-size:100% 100%;}
+            background:url(screens/n_aud_strip.png?v=37) no-repeat;background-size:100% 100%;}
   #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
   #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
 
@@ -78,10 +82,10 @@
   #splash .smeta{position:absolute;left:50%;bottom:6.9%;transform:translateX(-50%);width:21.4%;}
 </style>
 </head>
-<body>
+<body style="background:#000">
 <div id="splash">
-  <img class="slogo" src="screens/splash_logo.png?v=36" alt="">
-  <img class="smeta" src="screens/splash_meta.png?v=36" alt="">
+  <img class="slogo" src="screens/splash_logo.png?v=37" alt="">
+  <img class="smeta" src="screens/splash_meta.png?v=37" alt="">
 </div>
 <div id="app">
   <div id="stage">
@@ -89,7 +93,7 @@
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=36">
+        <img src="screens/n_home.png?v=37">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -97,7 +101,7 @@
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=36">
+        <img src="screens/n_profile.png?v=37">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -105,7 +109,7 @@
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=36">
+        <img id="dashImg" src="screens/n_dash.png?v=37">
         <!-- Views row -> insights; Interactions row -> interactions page -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
         <div class="hot" style="left:0;top:22.6%;width:100%;height:4.8%" onclick="goInteractions()"></div>
@@ -115,11 +119,11 @@
     <!-- INTERACTIONS -->
     <div class="screen navpad" id="s-interactions">
       <div id="intHdr">
-        <img src="screens/n_int_header.png?v=36">
+        <img src="screens/n_int_header.png?v=37">
         <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
       </div>
       <div class="sheet">
-        <img src="screens/n_int_top.png?v=36">
+        <img src="screens/n_int_top.png?v=37">
       </div>
       <div id="audSnap">
         <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
@@ -130,12 +134,12 @@
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=36">
+        <img id="himg" src="insights_overview_header2.png?v=37">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=36"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=36"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=37"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=37"></div>
     </div>
 
   </div>
@@ -202,10 +206,16 @@
   setTimeout(() => {
     const s = document.getElementById('splash');
     s.classList.add('gone');
-    setTimeout(() => s.remove(), 900);
+    setTimeout(() => {
+      s.remove();
+      // splash fully gone: restore the app background tone (started black so any
+      // launch-time gap iOS paints with the page bg is invisible)
+      document.documentElement.style.background = '#0d1115';
+      document.body.style.background = '#0d1115';
+    }, 900);
   }, 1500);
 
-  const ASSET_V = '?v=36';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=37';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay

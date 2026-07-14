@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en">
+<!-- html/body start BLACK (inline, first-paint): see /new - prevents the gray
+     launch strip; splash-removal script restores the app tone. -->
+<html lang="en" style="background:#000">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -7,8 +9,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new1.json?v=36">
-<link rel="apple-touch-icon" href="icon.png?v=36">
+<link rel="manifest" href="manifest_new1.json?v=37">
+<link rel="apple-touch-icon" href="icon.png?v=37">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -26,7 +28,7 @@
      so Safari (inset 0) shows no dead band above the header. */
   #hdr{position:sticky;top:0;z-index:10;
        padding-top:env(safe-area-inset-top,0px);
-       background:#090e10 url(screens/n_hdr_bg.png?v=36) repeat-y;background-size:100% 3px;}
+       background:#090e10 url(screens/n_hdr_bg.png?v=37) repeat-y;background-size:100% 3px;}
   /* dark pad below the content so the very bottom scrolls clear of the home indicator */
   #pad{height:env(safe-area-inset-bottom,0px);background:#0c1014;}
   /* Audience details section: two variants stacked, Age/Country pills toggle which
@@ -48,16 +50,16 @@
   #splash .smeta{position:absolute;left:50%;bottom:6.9%;transform:translateX(-50%);width:21.4%;}
 </style>
 </head>
-<body>
+<body style="background:#000">
   <div id="splash">
-    <img class="slogo" src="screens/splash_logo.png?v=36" alt="">
-    <img class="smeta" src="screens/splash_meta.png?v=36" alt="">
+    <img class="slogo" src="screens/splash_logo.png?v=37" alt="">
+    <img class="smeta" src="screens/splash_meta.png?v=37" alt="">
   </div>
-  <div id="hdr"><img src="screens/n_reel_header.png?v=36" alt=""></div>
-  <img src="screens/n_reel_top.png?v=36" alt="">
+  <div id="hdr"><img src="screens/n_reel_header.png?v=37" alt=""></div>
+  <img src="screens/n_reel_top.png?v=37" alt="">
   <div id="aud">
-    <img id="audAge" src="screens/n_aud_age.png?v=36" alt="" style="display:none">
-    <img id="audCty" src="screens/n_aud_country.png?v=36" alt="">
+    <img id="audAge" src="screens/n_aud_age.png?v=37" alt="" style="display:none">
+    <img id="audCty" src="screens/n_aud_country.png?v=37" alt="">
     <div class="hot" style="left:2.5%;width:15%;top:2.3vw;height:10.6vw" onclick="aud('age')"></div>
     <div class="hot" style="left:17.5%;width:20%;top:2.3vw;height:10.6vw" onclick="aud('cty')"></div>
   </div>
@@ -67,7 +69,11 @@
   setTimeout(() => {
     const s = document.getElementById('splash');
     s.classList.add('gone');
-    setTimeout(() => s.remove(), 900);
+    setTimeout(() => {
+      s.remove();
+      document.documentElement.style.background = '#0c1014';
+      document.body.style.background = '#0c1014';
+    }, 900);
   }, 1500);
 
   function aud(which){
