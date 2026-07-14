@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json?v=22">
-<link rel="apple-touch-icon" href="icon.png?v=22">
+<link rel="manifest" href="manifest.json?v=23">
+<link rel="apple-touch-icon" href="icon.png?v=23">
 <title>Instagram</title>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}</script>
 <style>
@@ -60,7 +60,7 @@
     <div class="screen active" id="s-home">
       <div id="ver"></div>
       <div class="sheet">
-        <img src="screens/home_chrome_c.png?v=22">
+        <img src="screens/home_chrome_c.png?v=23">
         <div class="hot" style="left:85%;top:90.5%;width:15%;height:6%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -68,28 +68,30 @@
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/profile_c.png?v=22">
-        <div class="hot" style="left:4%;top:40%;width:92%;height:8%" onclick="goDashboard()"></div>
+        <img src="screens/profile_c.png?v=23">
+        <div class="hot" style="left:3%;top:33%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
 
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/dash_loaded_c.png?v=22">
-        <div class="hot" style="left:5.6%;top:18%;width:94.4%;height:8%" onclick="goInsights()"></div>
+        <img id="dashImg" src="screens/dash_loaded_c.png?v=23">
+        <!-- Views row -> insights; Interactions / New followers / Content rows get
+             their own pages when those screenshots arrive -->
+        <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
       </div>
     </div>
 
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="himg" src="insights_overview_header2.png?v=22">
+        <img id="himg" src="insights_overview_header2.png?v=23">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=22"></div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=22"></div>
+      <div id="insContent"><img id="cimg" src="insights_overview_full.png?v=23"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=23"></div>
     </div>
 
   </div>
@@ -152,7 +154,7 @@
     lastTouch = now;
   }, { passive: false });
 
-  const ASSET_V = '?v=22';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=23';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   { const v = el('ver'); if (v) v.textContent = 'BUILD ' + ASSET_V.replace('?v=', 'v'); }
 
@@ -189,9 +191,9 @@
 
   function goProfile(){ go('s-profile', 'fade'); renderStats(); }
   function goDashboard(){
-    el('dashImg').src = 'screens/dash_skeleton_c.png' + ASSET_V;
+    // dashboard is a plain screenshot now - no skeleton fake-load (old skeleton
+    // showed the retired 4-video layout and would flash a mismatched frame)
     go('s-dashboard', 'slide');
-    setTimeout(() => { el('dashImg').src = 'screens/dash_loaded_c.png' + ASSET_V; }, 850);
   }
   function goInsights(){
     insTab('overview', true);
