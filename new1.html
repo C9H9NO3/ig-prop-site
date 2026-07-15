@@ -9,25 +9,21 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new1.json?v=41">
-<link rel="apple-touch-icon" href="icon.png?v=41">
+<link rel="manifest" href="manifest_new1.json?v=42">
+<link rel="apple-touch-icon" href="icon.png?v=42">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=41">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=41">
-<!-- preload splash art so the splash always renders whole, never piecewise -->
-<link rel="preload" as="image" href="screens/splash_logo.png?v=41">
-<link rel="preload" as="image" href="screens/splash_meta.png?v=41">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=42">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=42">
 <title>Instagram</title>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());
   // deploy landed while we were serving the cached shell: reload silently, but only
-  // while the splash still covers the screen (invisible to the user; no loop - the
-  // reloaded copy comes from the just-updated cache and matches the network)
+  // in the first moment after open (reload serves instantly from cache; no loop -
+  // the reloaded copy matches the network so no second notification fires)
   navigator.serviceWorker.addEventListener('message',(e)=>{
-    const s=document.getElementById('splash');
-    if(e.data&&e.data.type==='shell-updated'&&s&&!s.classList.contains('gone'))location.reload();
+    if(e.data&&e.data.type==='shell-updated'&&performance.now()<1200)location.reload();
   });
 }
 </script>
@@ -46,7 +42,7 @@ if('serviceWorker' in navigator){
      so Safari (inset 0) shows no dead band above the header. */
   #hdr{position:sticky;top:0;z-index:10;
        padding-top:env(safe-area-inset-top,0px);
-       background:#090e10 url(screens/n_hdr_bg.png?v=41) repeat-y;background-size:100% 3px;}
+       background:#090e10 url(screens/n_hdr_bg.png?v=42) repeat-y;background-size:100% 3px;}
   /* dark pad below the content so the very bottom scrolls clear of the home indicator */
   #pad{height:env(safe-area-inset-bottom,0px);background:#0c1014;}
   /* Audience details section: two variants stacked, Age/Country pills toggle which
@@ -55,44 +51,25 @@ if('serviceWorker' in navigator){
      pixel position regardless of which (different-height) variant is visible. */
   #aud{position:relative;}
   .hot{position:absolute;background:transparent;z-index:5;}
-  /* Instagram launch splash: shown on every open, holds 1.5s then fades out over .8s */
-  #splash{position:fixed;inset:0;z-index:100;background:#000;opacity:1;transition:opacity .8s ease;}
-  #splash.gone{opacity:0;pointer-events:none;}
-  /* black bleed past both viewport edges: during PWA launch iOS briefly lays out
-     without the bottom safe-area, which let the page bg peek out as a gray strip
-     under the home indicator. These fade + get removed with the splash. */
-  #splash::before,#splash::after{content:'';position:absolute;left:0;right:0;height:160px;background:#000;}
-  #splash::before{bottom:100%;}
-  #splash::after{top:100%;}
-  #splash .slogo{position:absolute;left:50%;top:46.5%;transform:translate(-50%,-50%);width:23.1%;}
-  #splash .smeta{position:absolute;left:50%;bottom:6.9%;transform:translateX(-50%);width:21.4%;}
 </style>
 </head>
 <body style="background:#000">
-  <div id="splash">
-    <img class="slogo" src="screens/splash_logo.png?v=41" alt="">
-    <img class="smeta" src="screens/splash_meta.png?v=41" alt="">
-  </div>
-  <div id="hdr"><img src="screens/n_reel_header.png?v=41" alt=""></div>
-  <img src="screens/n_reel_top.png?v=41" alt="">
+  <div id="hdr"><img src="screens/n_reel_header.png?v=42" alt=""></div>
+  <img src="screens/n_reel_top.png?v=42" alt="">
   <div id="aud">
-    <img id="audAge" src="screens/n_aud_age.png?v=41" alt="" style="display:none">
-    <img id="audCty" src="screens/n_aud_country.png?v=41" alt="">
+    <img id="audAge" src="screens/n_aud_age.png?v=42" alt="" style="display:none">
+    <img id="audCty" src="screens/n_aud_country.png?v=42" alt="">
     <div class="hot" style="left:2.5%;width:15%;top:2.3vw;height:10.6vw" onclick="aud('age')"></div>
     <div class="hot" style="left:17.5%;width:20%;top:2.3vw;height:10.6vw" onclick="aud('cty')"></div>
   </div>
   <div id="pad"></div>
 <script>
-  // launch splash: hold 1.5s, fade .8s, then remove so it can't block taps
-  setTimeout(() => {
-    const s = document.getElementById('splash');
-    s.classList.add('gone');
-    setTimeout(() => {
-      s.remove();
-      document.documentElement.style.background = '#0c1014';
-      document.body.style.background = '#0c1014';
-    }, 900);
-  }, 1500);
+  // html/body started black (inline) so any launch-time gap iOS paints with the
+  // page bg is invisible; restore the app tone as soon as the page is up
+  addEventListener('load', () => {
+    document.documentElement.style.background = '#0c1014';
+    document.body.style.background = '#0c1014';
+  });
 
   function aud(which){
     document.getElementById('audAge').style.display = which === 'age' ? 'block' : 'none';
