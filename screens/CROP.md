@@ -36,11 +36,11 @@ Sources are scaled to width **1290** (folder shots are not always 1290×2796). F
 1. Header is `overview1`, `y = 0 … 430` (through the Overview tab underline) → `insights_overview_header2.png`.
 2. Body, sticky chrome skipped on later shots:
    - `overview1` `y = 430 … 2448` (through the Stories label)
-   - cloned Posts `0`-bar `y = 2321 … 2412` (Stories bar is clipped off the bottom of overview1)
-   - `overview2` `y = 480 … 2260`
+   - cloned Posts `0`-bar `y = 2321 … 2421` (Stories bar is clipped off the bottom of overview1; include the full gap up to the next label so pitch matches Reels/Posts)
+   - `overview2` `y = 499 … 2260` (Live videos label; no extra pad or Stories→Live is too tall)
    - `overview3` `y = 1820 … height-8` (keep the empty pad under Profile activity)
-   → `insights_overview_full.png` (1290×4856)
-3. Paint the line-chart hole at body `y = 766 … 1296` (matches SVG viewBox 1290×530). Overlay CSS: `top:15.7743%; height:10.9143%`.
+   → `insights_overview_full.png` (1290×4846)
+3. Paint the line-chart hole at body `y = 766 … 1296` (matches SVG viewBox 1290×530). Overlay CSS: `top:15.8069%; height:10.9369%`.
 
 ### Audience
 
