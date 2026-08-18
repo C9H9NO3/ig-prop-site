@@ -58,12 +58,13 @@ Header `insights_content_header2.png` (y 0–462 of folder `(9)` list shot). Bod
 
 ### Reel Insights (Meow meow)
 
-Content’s first row opens a separate screen (`#s-reel`), not the main Insights Overview/Content/Audience chrome. Sources: folder `(11)` `1.png` / `2.PNG` / `3.PNG`. Scale `1.png` to width 1290. Paint the top **177 px** of each shot.
+Content’s first row opens a separate screen (`#s-reel`), not the main Insights Overview/Content/Audience chrome. Header + opening body still come from folder `(11)` `1.png` / `2.PNG`. **What impacts your views** and **How long people watched your reel** are replaced from folder `(13)` `2.PNG` / `3.png`. Scale `3.png` to width 1290. Paint the top **177 px** of each shot. Always cut in empty black, never through text or icons, and never include the same row twice.
 
-1. Header is `1.png`, `y = 0 … 360` (through Insights title, before thumbnails) → `insights_reel_header.png`.
-2. Body — always cut in empty black, never through text or icons, and never include the same row twice:
-   - `1.png` `y = 360 … 1988` (thumbnails + Summary cards, stop at the card bottoms)
-   - `2.PNG` `y = 320 … 2648` (empty + full Views over time heading through Save rate + the gap under it; skip sticky header)
-   - `3.PNG` `y = 328 … last content` (empty + full Comment rate through Boost this reel)
-   → `insights_reel_full.png` (1290×6349). After the cut, Save→Comment label pitch must match Like→Save (216 px). Shot 3 clips the top of the Comment circle; copy the top 20 px of Save’s circle onto it.
+1. Header is folder `(11)` `1.png`, `y = 0 … 360` (through Insights title, before thumbnails) → `insights_reel_header.png`.
+2. Body:
+   - folder `(11)` `1.png` `y = 360 … 1988` (thumbnails + Summary cards)
+   - folder `(11)` `2.PNG` `y = 320 …` through Views / Instagram / Facebook (stop in empty before What impacts)
+   - folder `(13)` `2.PNG` `y = 360 … 1820` (What impacts heading through Comment rate; **do not** include that shot’s leftover How long heading or its short magenta line)
+   - folder `(13)` `3.png` `y = 548 … 2610` (full How long people watched — the 100% line to ~75% is the authority graph — through Boost this reel; skip sticky header and Comment leftover)
+   → `insights_reel_full.png` (1290×6562, includes a short bottom pad)
 3. Back returns to Insights Content. Do not use the spinner overlay.
