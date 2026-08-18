@@ -11,14 +11,14 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=62">
-<link rel="apple-touch-icon" href="icon.png?v=62">
+<link rel="manifest" href="manifest_new.json?v=63">
+<link rel="apple-touch-icon" href="icon.png?v=63">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=62">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=62">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=63">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=63">
 <title>Instagram</title>
-<script src="config.js?v=62"></script>
+<script src="config.js?v=63"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());
@@ -76,14 +76,24 @@ if('serviceWorker' in navigator){
   #contentShimmer{display:none;position:relative;overflow:hidden;width:100%;}
   #contentShimmer.on{display:block;}
   #contentShimmer img{display:block;width:100%;}
-  #contentShimmer::after{content:"";position:absolute;inset:0;pointer-events:none;
+  #contentShimmer::after,#overviewShimmer::after{content:"";position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
     background-size:45% 100%;background-repeat:no-repeat;
-    -webkit-mask-image:url(insights_content_shimmer_mask.png?v=62);
-    mask-image:url(insights_content_shimmer_mask.png?v=62);
     -webkit-mask-size:100% 100%;mask-size:100% 100%;
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
     animation:insShine 1.15s ease-in-out infinite;}
+  #contentShimmer::after{
+    -webkit-mask-image:url(insights_content_shimmer_mask.png?v=63);
+    mask-image:url(insights_content_shimmer_mask.png?v=63);}
+  #overviewShimmer{display:none;position:relative;overflow:hidden;width:100%;opacity:1;
+    transition:opacity .38s ease;}
+  #overviewShimmer.on{display:block;}
+  #overviewShimmer.cover{position:absolute;left:0;top:0;z-index:5;}
+  #overviewShimmer.fade{opacity:0;}
+  #overviewShimmer img{display:block;width:100%;}
+  #overviewShimmer::after{
+    -webkit-mask-image:url(insights_overview_shimmer_mask.png?v=63);
+    mask-image:url(insights_overview_shimmer_mask.png?v=63);}
   @keyframes insShine{from{background-position:-45% 0}to{background-position:145% 0}}
   /* Overview line chart overlay — sits on the painted graph hole in the screenshot.
      Percents are of insights_overview_full.png (1290×4887): y 766–1296. */
@@ -102,14 +112,14 @@ if('serviceWorker' in navigator){
   /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
      pattern) + stitched content + swipe-snap Audience carousel */
   #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
-          background:#0c1115 url(screens/n_int_hdr_bg.png?v=62) repeat-y;background-size:100% 3px;}
+          background:#0c1115 url(screens/n_int_hdr_bg.png?v=63) repeat-y;background-size:100% 3px;}
   #intHdr img{display:block;width:100%;}
   /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
      viewport). Drag and release -> the card settles into place; ends clamp. */
   #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
            -webkit-overflow-scrolling:touch;background:#0c1115;}
   #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/685;
-            background:url(screens/n_aud_strip.png?v=62) no-repeat;background-size:100% 100%;}
+            background:url(screens/n_aud_strip.png?v=63) no-repeat;background-size:100% 100%;}
   #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
   #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
 </style>
@@ -121,7 +131,7 @@ if('serviceWorker' in navigator){
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=62">
+        <img src="screens/n_home.png?v=63">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -129,7 +139,7 @@ if('serviceWorker' in navigator){
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=62">
+        <img src="screens/n_profile.png?v=63">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -137,7 +147,7 @@ if('serviceWorker' in navigator){
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=62">
+        <img id="dashImg" src="screens/n_dash.png?v=63">
         <!-- Views row -> insights. This capture has no Interactions row
              (Views / New followers / Content). Extra rows stay unwired. -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
@@ -147,11 +157,11 @@ if('serviceWorker' in navigator){
     <!-- INTERACTIONS -->
     <div class="screen navpad" id="s-interactions">
       <div id="intHdr">
-        <img src="screens/n_int_header.png?v=62">
+        <img src="screens/n_int_header.png?v=63">
         <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
       </div>
       <div class="sheet">
-        <img src="screens/n_int_top.png?v=62">
+        <img src="screens/n_int_top.png?v=63">
       </div>
       <div id="audSnap">
         <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
@@ -162,7 +172,7 @@ if('serviceWorker' in navigator){
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=62">
+        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=63">
         <img id="h-content" class="insTabImg" alt="">
         <img id="h-audience" class="insTabImg" alt="">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
@@ -171,10 +181,11 @@ if('serviceWorker' in navigator){
       </div>
       <div id="insScroller">
         <div id="insContent">
-          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=62">
+          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=63">
           <img id="c-content" class="insTabImg" alt="">
           <img id="c-audience" class="insTabImg" alt="">
-          <div id="contentShimmer"><img src="insights_content_shimmer.png?v=62" alt=""></div>
+          <div id="overviewShimmer"><img src="insights_overview_shimmer.png?v=63" alt=""></div>
+          <div id="contentShimmer"><img src="insights_content_shimmer.png?v=63" alt=""></div>
           <div id="viewsGraph"></div>
           <div id="followsGraph"></div>
         </div>
@@ -182,7 +193,7 @@ if('serviceWorker' in navigator){
     </div>
 
   </div>
-  <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=62"></div>
+  <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=63"></div>
 </div>
 <script>
   // ---- live profile stat numbers (posts/followers/following) ----
@@ -249,7 +260,7 @@ if('serviceWorker' in navigator){
     document.body.style.background = '#0d1115';
   });
 
-  const ASSET_V = '?v=62';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=63';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay
@@ -318,20 +329,29 @@ if('serviceWorker' in navigator){
   }
   function goBackDash(){ go('s-dashboard', 'back'); }
   function goInsights(){
+    insOpening = true;
     insTab('overview', true);
     preloadInsTab('audience');
     preloadInsTab('content');
     const sc = el('insScroller'); if (sc) sc.scrollTop = 0;
     el('s-insights').classList.remove('ins-ready');
-    const ld = el('insLoading'); ld.style.display = 'block';
-    el('loadImg').src = 'screens/ins_spinner_c.png' + ASSET_V;
+    el('c-overview').classList.remove('on');
+    const sh = el('overviewShimmer');
+    sh.classList.add('on');
+    sh.classList.remove('fade', 'cover');
     go('s-insights', 'slide');
-    setTimeout(() => { el('loadImg').src = 'screens/ins_skeleton_c.png' + ASSET_V; }, 650);
     setTimeout(() => {
-      ld.style.display = 'none';
+      if (!insOpening) return;
+      el('c-overview').classList.add('on');
+      sh.classList.add('cover');
       el('s-insights').classList.add('ins-ready');
-      kickInsScroller();
-    }, 1350);
+      requestAnimationFrame(() => { sh.classList.add('fade'); });
+      setTimeout(() => {
+        sh.classList.remove('on', 'fade', 'cover');
+        insOpening = false;
+        kickInsScroller();
+      }, 400);
+    }, 1800);
   }
   function kickInsScroller(){
     const sc = el('insScroller');
@@ -362,10 +382,16 @@ if('serviceWorker' in navigator){
   }
   let insGen = 0;
   let insPage = 'overview';
+  let insOpening = false;
   function insTab(p, silent){
     const urls = preloadInsTab(p);
     if (!urls) return;
     if (!silent && p === insPage && el('h-' + p) && el('h-' + p).classList.contains('on')) return;
+    if (!silent){
+      insOpening = false;
+      const osh = el('overviewShimmer');
+      if (osh) osh.classList.remove('on', 'fade', 'cover');
+    }
     insPage = p;
     const gen = ++insGen;
     Promise.all(urls.map(decodeUrl)).then(() => {
@@ -373,11 +399,11 @@ if('serviceWorker' in navigator){
       el('h-overview').classList.toggle('on', p === 'overview');
       el('h-content').classList.toggle('on', p === 'content');
       el('h-audience').classList.toggle('on', p === 'audience');
-      el('c-overview').classList.toggle('on', p === 'overview');
+      el('c-overview').classList.toggle('on', p === 'overview' && !insOpening);
       el('c-audience').classList.toggle('on', p === 'audience');
       const g = el('viewsGraph');
       if (g) g.style.display = p === 'overview' ? 'block' : 'none';
-      if (p === 'overview') drawViewsGraph();
+      if (p === 'overview' && !insOpening) drawViewsGraph();
       const fg = el('followsGraph');
       if (fg) fg.style.display = p === 'audience' ? 'block' : 'none';
       if (p === 'audience') drawFollowsGraph();
