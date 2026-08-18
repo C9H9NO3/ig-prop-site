@@ -11,14 +11,14 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=51">
-<link rel="apple-touch-icon" href="icon.png?v=51">
+<link rel="manifest" href="manifest_new.json?v=52">
+<link rel="apple-touch-icon" href="icon.png?v=52">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=51">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=51">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=52">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=52">
 <title>Instagram</title>
-<script src="config.js?v=51"></script>
+<script src="config.js?v=52"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());
@@ -60,10 +60,16 @@ if('serviceWorker' in navigator){
   #profileStats{position:absolute;inset:0;z-index:3;pointer-events:none;}
   #profileStats img{position:absolute;-webkit-user-drag:none;}
 
-  /* insights: header + content stacked; the whole screen scrolls naturally */
-  #insHeader{position:sticky;top:0;z-index:10;background:#0d1115;}
+  /* insights: pinned chrome + inner scroller (CSS sticky fails here because
+     body/#app use overflow-x:hidden, which makes sticky a no-op on iOS). */
+  #s-insights.active, #s-insights.animating{
+    display:flex;flex-direction:column;height:100dvh;overflow:hidden;
+  }
+  #insHeader{flex:0 0 auto;z-index:10;background:#0d1115;}
   #insHeader img.insTabImg{display:none;width:100%;}
   #insHeader img.insTabImg.on{display:block;}
+  #insScroller{flex:1 1 auto;overflow-x:hidden;overflow-y:auto;
+               -webkit-overflow-scrolling:touch;background:#0d1115;}
   #insContent{position:relative;width:100%;background:#0d1115;}
   #insContent img.insTabImg{display:none;width:100%;}
   #insContent img.insTabImg.on{display:block;}
@@ -78,14 +84,14 @@ if('serviceWorker' in navigator){
   /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
      pattern) + stitched content + swipe-snap Audience carousel */
   #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
-          background:#0c1115 url(screens/n_int_hdr_bg.png?v=51) repeat-y;background-size:100% 3px;}
+          background:#0c1115 url(screens/n_int_hdr_bg.png?v=52) repeat-y;background-size:100% 3px;}
   #intHdr img{display:block;width:100%;}
   /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
      viewport). Drag and release -> the card settles into place; ends clamp. */
   #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
            -webkit-overflow-scrolling:touch;background:#0c1115;}
   #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/685;
-            background:url(screens/n_aud_strip.png?v=51) no-repeat;background-size:100% 100%;}
+            background:url(screens/n_aud_strip.png?v=52) no-repeat;background-size:100% 100%;}
   #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
   #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
 </style>
@@ -97,7 +103,7 @@ if('serviceWorker' in navigator){
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=51">
+        <img src="screens/n_home.png?v=52">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -105,7 +111,7 @@ if('serviceWorker' in navigator){
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=51">
+        <img src="screens/n_profile.png?v=52">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -113,7 +119,7 @@ if('serviceWorker' in navigator){
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=51">
+        <img id="dashImg" src="screens/n_dash.png?v=52">
         <!-- Views row -> insights. This capture has no Interactions row
              (Views / New followers / Content). Extra rows stay unwired. -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
@@ -123,11 +129,11 @@ if('serviceWorker' in navigator){
     <!-- INTERACTIONS -->
     <div class="screen navpad" id="s-interactions">
       <div id="intHdr">
-        <img src="screens/n_int_header.png?v=51">
+        <img src="screens/n_int_header.png?v=52">
         <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
       </div>
       <div class="sheet">
-        <img src="screens/n_int_top.png?v=51">
+        <img src="screens/n_int_top.png?v=52">
       </div>
       <div id="audSnap">
         <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
@@ -138,17 +144,19 @@ if('serviceWorker' in navigator){
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=51">
+        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=52">
         <img id="h-audience" class="insTabImg" alt="">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
-      <div id="insContent">
-        <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=51">
-        <img id="c-audience" class="insTabImg" alt="">
-        <div id="viewsGraph"></div>
+      <div id="insScroller">
+        <div id="insContent">
+          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=52">
+          <img id="c-audience" class="insTabImg" alt="">
+          <div id="viewsGraph"></div>
+        </div>
       </div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=51"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=52"></div>
     </div>
 
   </div>
@@ -218,7 +226,7 @@ if('serviceWorker' in navigator){
     document.body.style.background = '#0d1115';
   });
 
-  const ASSET_V = '?v=51';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=52';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay
@@ -286,6 +294,7 @@ if('serviceWorker' in navigator){
   function goInsights(){
     insTab('overview', true);
     preloadInsTab('audience');
+    const sc = el('insScroller'); if (sc) sc.scrollTop = 0;
     const ld = el('insLoading'); ld.style.display = 'block';
     el('loadImg').src = 'screens/ins_spinner_c.png' + ASSET_V;
     go('s-insights', 'slide');
@@ -327,7 +336,7 @@ if('serviceWorker' in navigator){
       const g = el('viewsGraph');
       if (g) g.style.display = p === 'overview' ? 'block' : 'none';
       if (p === 'overview') drawViewsGraph();
-      if (!silent) window.scrollTo(0, 0);
+      if (!silent) { const sc = el('insScroller'); if (sc) sc.scrollTop = 0; }
     });
   }
 
