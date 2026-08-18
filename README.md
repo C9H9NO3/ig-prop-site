@@ -14,6 +14,9 @@ Railway auto-detects Node (via `package.json`) and runs `npm start`, binding to 
 1. Create a new project on Railway and "Deploy from GitHub repo" -> pick this repo.
 2. Railway builds and gives you a public URL. Open it on your phone -> Add to Home Screen -> record.
 
+## Swap `/new` screenshots
+Use original 1290×2796 iPhone PNGs from a folder (not chat attachments). Paint out the status bar — do not crop height. Full notes: `screens/CROP.md`.
+
 ## Swap the home-feed video
 Replace `screens/promo_placeholder.mp4` with your own MP4 (keep the same name), commit, push.
 Railway redeploys automatically.
