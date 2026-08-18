@@ -67,5 +67,6 @@ Content’s first row opens a separate screen (`#s-reel`), not the main Insights
    - folder `(15)` `ADE59549-…png` `y = 318 … 2782` (Comment rate 0.0% row — its circle starts at 336, back-button ends 307 — through How long, Top sources 72/17/8/3, Ad, complete Boost row; stop before the shot’s bottom-edge vignette at ~2783; no home indicator)
    - Append the same shot’s empty bg `y = 2660 … 2782` once more so Boost gets ~274 px of scroll clearance
    - Seams need no feather: label-top pitch Save→Comment locked to 217 px (A cut minus B cut = 2396); all bg tones match within 0.2
+   - The How-long shot’s sticky header covers the top 25 px of its Comment-rate circle. Complete it by pasting the Save disk’s top slice (live rows 3797…3831 → 4014…4048); disks share identical x-extents so the graft is seamless
    → `insights_reel_full.png` (1290×6607)
 3. Back returns to Insights Content. Do not use the spinner overlay.
