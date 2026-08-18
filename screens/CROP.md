@@ -25,17 +25,28 @@ The live PWA uses `black-translucent` status bar, so iOS draws the real time/bat
 
 After swapping images, bump `?v=` in `new.html` and `CACHE` in `sw.js`.
 
-## Insights Overview (Views) stitch
+## Insights Overview + Audience stitch
 
-Dashboard **Views** already opens the existing Insights screen (`goInsights()`). Replace the two Overview PNGs; do not rebuild that page.
+Dashboard **Views** opens Insights (`goInsights()`). Tabs swap header+body PNGs. Keep the live Overview SVG (`#viewsGraph`); punch a hole in the Overview body so the baked-in line is gone. Do not edit the Audience growth graph.
 
-Source: numbered 1290 × 2796 shots from an iCloud folder (`1.PNG`, `2.PNG`, `3.PNG`). Content order is **3 → 2 → 1** (3 is the top of the page; 1 is the bottom). Do not stitch 1-2-3 by filename.
+Sources are scaled to width **1290** (folder shots are not always 1290×2796). Filename order is scroll order: `overview1` top → `overview3` bottom, `audience1` top → `audience4` bottom. Paint the top **177 px** of each shot before cropping.
 
-1. Paint the top **177 px** of shot 3 (status bar), same as home/profile/dash.
-2. Header is shot 3, `y = 0 … 462` (through the Overview tab underline) → `insights_overview_header2.png`.
-3. Body is overlap-matched on unique rows (not empty gray bars):
-   - shot 3 `y = 462 … 2480`
-   - shot 2 `y = 540 … 1890`
-   - shot 1 `y = 1350 … ~2609`
-   → `insights_overview_full.png`
-4. Audience tab still uses the existing `insights_audience_*` pair until new Audience shots arrive.
+### Overview
+
+1. Header is `overview1`, `y = 0 … 430` (through the Overview tab underline) → `insights_overview_header2.png`.
+2. Body, sticky chrome skipped on later shots:
+   - `overview1` `y = 430 … ~2466`
+   - `overview2` `y = 490 … 2260`
+   - `overview3` `y = 1820 … content end`
+   → `insights_overview_full.png` (1290×4583)
+3. Paint the line-chart hole at body `y = 766 … 1296` (matches SVG viewBox 1290×530). Overlay CSS: `top:16.7139%; height:11.5645%`.
+
+### Audience
+
+1. Header is `audience1`, `y = 0 … 462` (through the Audience tab underline) → `insights_audience_header2.png`.
+2. Body:
+   - `audience1` `y = 462 … 2320` (through top content by follows)
+   - `audience2` `y = 462 … 2210` (Gender + age, stop before Top locations)
+   - `audience3` `y = 500 … 1575` (Top locations / countries)
+   - `audience4` `y = 1020 … content end` (Follower active times)
+   → `insights_audience_full.png` (1290×6371)
