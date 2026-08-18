@@ -58,15 +58,14 @@ Header `insights_content_header2.png` (y 0–462 of folder `(9)` list shot). Bod
 
 ### Reel Insights (Meow meow)
 
-Content’s first row opens a separate screen (`#s-reel`), not the main Insights Overview/Content/Audience chrome. Header + opening body still come from folder `(11)` `1.png` / `2.PNG`. **What impacts your views** and **How long people watched your reel** are replaced from folder `(13)` `2.PNG` and folder `(14)` respectively. Scale non-1290 shots to width 1290. Paint the top **177 px** of each shot. Always cut in empty black, never through text or icons, and never include the same row twice.
+Content’s first row opens a separate screen (`#s-reel`), not the main Insights Overview/Content/Audience chrome. Header + top body come from folder `(11)` `1.png`; everything below the Summary cards comes from folder `(15)` (Views over time shot `504982A7-…png` + How-long shot `ADE59549-…png`). Scale non-1290 shots to width 1290. Paint the top **177 px** of each shot. Always cut in empty black, never through text or icons, and never include the same row twice.
 
 1. Header is folder `(11)` `1.png`, `y = 0 … 360` (through Insights title, before thumbnails) → `insights_reel_header.png`.
 2. Body:
-   - folder `(11)` `1.png` `y = 360 … 1988` (thumbnails + Summary cards)
-   - folder `(11)` `2.PNG` `y = 320 …` through Views / Instagram / Facebook (stop in empty before What impacts)
-   - folder `(13)` `2.PNG` `y = 360 … 1820` (What impacts heading through Comment rate; **do not** include that shot’s leftover How long heading or its short magenta line)
-   - folder `(14)` `C5B42B15-…png` `y = 548 … 2404` (full How long people watched through Top sources ending with Other 3%; stop in the empty gap **before** that shot’s Ad heading — its Boost row has an iOS tap-highlight orb baked in and must never be used)
-   - folder `(11)` `3.PNG` `y = 2330 … 2796` (authentic **Ad** heading + complete Boost this reel row — bare white arrow, no circle — plus its natural 259 px empty bottom; no home indicator in this shot)
-   - Feather a 60 px background blend across the f14→f11 seam (live y 6246–6306) since f14 bg ≈ (10,14,17) and f11 bg = (11,16,20)
-   → `insights_reel_full.png` (1290×6742)
+   - folder `(11)` `1.png` `y = 360 … 1988` (thumbnails + Summary cards) → live `0 … 1628`
+   - folder `(15)` `504982A7-…png` `y = 321 … 2714` (Views over time heading, pills, graph 3,579,456 / 3,577,241 / 2,215, What impacts + Skip 27.2% / Share 8.0% / Like 22.1% / Save 0.5%; cut below the Save circle at 2634, above its off-screen rows)
+   - folder `(15)` `ADE59549-…png` `y = 318 … 2782` (Comment rate 0.0% row — its circle starts at 336, back-button ends 307 — through How long, Top sources 72/17/8/3, Ad, complete Boost row; stop before the shot’s bottom-edge vignette at ~2783; no home indicator)
+   - Append the same shot’s empty bg `y = 2660 … 2782` once more so Boost gets ~274 px of scroll clearance
+   - Seams need no feather: label-top pitch Save→Comment locked to 217 px (A cut minus B cut = 2396); all bg tones match within 0.2
+   → `insights_reel_full.png` (1290×6607)
 3. Back returns to Insights Content. Do not use the spinner overlay.
