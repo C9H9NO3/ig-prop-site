@@ -4,7 +4,7 @@
 // background. If the background refresh finds a NEW app shell, clients are notified
 // so they can silently reload while the splash still covers the screen.
 // Bump CACHE on each deploy; activate purges older caches.
-const CACHE = 'ig-v50';
+const CACHE = 'ig-v51';
 
 self.addEventListener('install', () => self.skipWaiting());
 

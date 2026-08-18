@@ -29,7 +29,7 @@ After swapping images, bump `?v=` in `new.html` and `CACHE` in `sw.js`.
 
 Dashboard **Views** opens Insights (`goInsights()`). Tabs swap header+body PNGs. Keep the live Overview SVG (`#viewsGraph`); punch a hole in the Overview body so the baked-in line is gone. Do not edit the Audience growth graph.
 
-Sources are scaled to width **1290** (folder shots are not always 1290×2796). Filename order is scroll order: `overview1` top → `overview3` bottom, `audience1` top → `audience4` bottom. Paint the top **177 px** of each shot before cropping. Overview also uses a later full-frame shot of Views by content type (folder `(5)`, `CCAFA001-…png`) so those four rows are not split across `overview1`/`overview2`.
+Sources are scaled to width **1290** (folder shots are not always 1290×2796). Filename order is scroll order: `overview1` top → `overview3` bottom, `audience1` top → `audience4` bottom. Paint the top **177 px** of each shot before cropping. Overview also uses a later full-frame shot of Views by content type (folder `(5)`, `CCAFA001-…png`) so those four rows are not split across `overview1`/`overview2`. Audience Follows tiles come from folder `(7)` `IMG_0988.PNG`. The Insights header (`#insHeader`) is `position: sticky; top: 0` so Overview/Audience tabs stay on screen; do not add extra safe-area padding (status gap is already painted into the header PNGs).
 
 ### Overview
 
@@ -45,8 +45,9 @@ Sources are scaled to width **1290** (folder shots are not always 1290×2796). F
 
 1. Header is `audience1`, `y = 0 … 462` (through the Audience tab underline) → `insights_audience_header2.png`.
 2. Body:
-   - `audience1` `y = 462 … 2320` (through top content by follows)
-   - `audience2` `y = 462 … 2210` (Gender + age, stop before Top locations)
+   - `audience1` `y = 462 … 1850` (through follower growth; that shot clips the Follows thumbnail row)
+   - `IMG_0988.PNG` (folder `(7)`) `y = 1180 … 1812` (Top content by follows, full tiles, stop before Gender)
+   - `audience2` `y = 498 … 2210` (Gender + age, stop before Top locations)
    - `audience3` `y = 500 … 1575` (Top locations / countries)
    - `audience4` `y = 1020 … content end` (Follower active times)
-   → `insights_audience_full.png` (1290×6371)
+   → `insights_audience_full.png` (1290×6497)
