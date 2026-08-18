@@ -11,14 +11,14 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=56">
-<link rel="apple-touch-icon" href="icon.png?v=56">
+<link rel="manifest" href="manifest_new.json?v=57">
+<link rel="apple-touch-icon" href="icon.png?v=57">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=56">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=56">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=57">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=57">
 <title>Instagram</title>
-<script src="config.js?v=56"></script>
+<script src="config.js?v=57"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());
@@ -78,20 +78,24 @@ if('serviceWorker' in navigator){
   #viewsGraph{position:absolute;left:0;width:100%;top:15.6742%;height:10.8451%;
               z-index:4;pointer-events:none;}
   #viewsGraph svg{width:100%;height:100%;display:block;}
+  /* Audience follower-growth overlay — hole in insights_audience_full.png (1290×6497): y 880–1280. */
+  #followsGraph{position:absolute;left:0;width:100%;top:13.5447%;height:6.1567%;
+                z-index:4;pointer-events:none;display:none;}
+  #followsGraph svg{width:100%;height:100%;display:block;}
   #insLoading{position:fixed;inset:0;z-index:10;background:#0d1115;display:none;}
   #insLoading img{display:block;width:100%;}
 
   /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
      pattern) + stitched content + swipe-snap Audience carousel */
   #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
-          background:#0c1115 url(screens/n_int_hdr_bg.png?v=56) repeat-y;background-size:100% 3px;}
+          background:#0c1115 url(screens/n_int_hdr_bg.png?v=57) repeat-y;background-size:100% 3px;}
   #intHdr img{display:block;width:100%;}
   /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
      viewport). Drag and release -> the card settles into place; ends clamp. */
   #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
            -webkit-overflow-scrolling:touch;background:#0c1115;}
   #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/685;
-            background:url(screens/n_aud_strip.png?v=56) no-repeat;background-size:100% 100%;}
+            background:url(screens/n_aud_strip.png?v=57) no-repeat;background-size:100% 100%;}
   #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
   #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
 </style>
@@ -103,7 +107,7 @@ if('serviceWorker' in navigator){
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=56">
+        <img src="screens/n_home.png?v=57">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -111,7 +115,7 @@ if('serviceWorker' in navigator){
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=56">
+        <img src="screens/n_profile.png?v=57">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -119,7 +123,7 @@ if('serviceWorker' in navigator){
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=56">
+        <img id="dashImg" src="screens/n_dash.png?v=57">
         <!-- Views row -> insights. This capture has no Interactions row
              (Views / New followers / Content). Extra rows stay unwired. -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
@@ -129,11 +133,11 @@ if('serviceWorker' in navigator){
     <!-- INTERACTIONS -->
     <div class="screen navpad" id="s-interactions">
       <div id="intHdr">
-        <img src="screens/n_int_header.png?v=56">
+        <img src="screens/n_int_header.png?v=57">
         <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
       </div>
       <div class="sheet">
-        <img src="screens/n_int_top.png?v=56">
+        <img src="screens/n_int_top.png?v=57">
       </div>
       <div id="audSnap">
         <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
@@ -144,19 +148,20 @@ if('serviceWorker' in navigator){
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=56">
+        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=57">
         <img id="h-audience" class="insTabImg" alt="">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
         <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
       </div>
       <div id="insScroller">
         <div id="insContent">
-          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=56">
+          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=57">
           <img id="c-audience" class="insTabImg" alt="">
           <div id="viewsGraph"></div>
+          <div id="followsGraph"></div>
         </div>
       </div>
-      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=56"></div>
+      <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=57"></div>
     </div>
 
   </div>
@@ -226,7 +231,7 @@ if('serviceWorker' in navigator){
     document.body.style.background = '#0d1115';
   });
 
-  const ASSET_V = '?v=56';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=57';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay
@@ -344,6 +349,9 @@ if('serviceWorker' in navigator){
       const g = el('viewsGraph');
       if (g) g.style.display = p === 'overview' ? 'block' : 'none';
       if (p === 'overview') drawViewsGraph();
+      const fg = el('followsGraph');
+      if (fg) fg.style.display = p === 'audience' ? 'block' : 'none';
+      if (p === 'audience') drawFollowsGraph();
       if (!silent) { const sc = el('insScroller'); if (sc) sc.scrollTop = 0; }
       kickInsScroller();
     });
@@ -404,6 +412,43 @@ if('serviceWorker' in navigator){
       xLabs += '<text x="'+xPos[i]+'" y="'+DATE_Y+'" text-anchor="'+xAnchor[i]+'" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+labelsX[i]+'</text>';
     }
     host.innerHTML = '<svg viewBox="0 0 1290 530" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
+      grids + yLabs + xLabs +
+      '<polyline fill="none" stroke="#dc38d1" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/>'+
+      '</svg>';
+  }
+  function drawFollowsGraph(){
+    const host = el('followsGraph');
+    const cfg = window.FOLLOWS_GRAPH;
+    if (!host || !cfg || !cfg.values || !cfg.values.length) return;
+    const vals = cfg.values.map(Number);
+    const ymin = cfg.yMin != null ? Number(cfg.yMin) : -20000;
+    const ymax = cfg.yMax != null ? Number(cfg.yMax) : 20000;
+    const span = ymax - ymin || 1;
+    const labelsX = cfg.labelsX || ['', '', ''];
+    const L = 150, R = 1190, T = 22, B = 338, DATE_Y = 378;
+    const n = vals.length;
+    const pts = vals.map((v, i) => {
+      const x = L + (n === 1 ? 0 : i * (R - L) / (n - 1));
+      const y = B - ((v - ymin) / span) * (B - T);
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    }).join(' ');
+    const yTicks = [ymax, 0, ymin];
+    const yPos = [T, (T + B) / 2, B];
+    const xPos = [L, (L + R) / 2, R];
+    const xAnchor = ['start', 'middle', 'end'];
+    let grids = '';
+    for (let i = 0; i < 3; i++){
+      grids += '<line x1="'+L+'" x2="'+R+'" y1="'+yPos[i]+'" y2="'+yPos[i]+'" stroke="#24292e" stroke-width="3"/>';
+    }
+    let yLabs = '';
+    for (let i = 0; i < 3; i++){
+      yLabs += '<text x="140" y="'+yPos[i]+'" text-anchor="end" dominant-baseline="middle" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+fmtK(yTicks[i])+'</text>';
+    }
+    let xLabs = '';
+    for (let i = 0; i < 3; i++){
+      xLabs += '<text x="'+xPos[i]+'" y="'+DATE_Y+'" text-anchor="'+xAnchor[i]+'" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+labelsX[i]+'</text>';
+    }
+    host.innerHTML = '<svg viewBox="0 0 1290 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
       grids + yLabs + xLabs +
       '<polyline fill="none" stroke="#dc38d1" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/>'+
       '</svg>';

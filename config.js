@@ -39,3 +39,22 @@ window.VIEWS_GRAPH = {
     175000, 108000, 142000
   ],
 };
+
+// Daily net followers on Insights Audience (Jul 20 → Aug 18).
+// Y-axis is fixed at 20K / 0 / -20K. Large spikes at ~5%, ~60%, ~70%.
+window.FOLLOWS_GRAPH = {
+  labelsX: ["Jul 20", "Aug 3", "Aug 18"],
+  yMin: -20000,
+  yMax:  20000,
+  values: [
+    600,
+    9800,   // ~5%
+    2200, 1800, 2100, 1600, 2400, 1900, 2700, 2300,
+    3100, 2800, 3400, 3000, 3600, 3300, 3900,
+    15200,  // ~60%
+    -1800,
+    4800,
+    19600,  // ~70%
+    6200, 5800, 6500, 6100, -400, 7200, 6900, 7400, 7800
+  ],
+};
