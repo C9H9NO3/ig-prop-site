@@ -61,9 +61,9 @@ Header `insights_content_header2.png` (y 0–462 of folder `(9)` list shot). Bod
 Content’s first row opens a separate screen (`#s-reel`), not the main Insights Overview/Content/Audience chrome. Sources: folder `(11)` `1.png` / `2.PNG` / `3.PNG`. Scale `1.png` to width 1290. Paint the top **177 px** of each shot.
 
 1. Header is `1.png`, `y = 0 … 360` (through Insights title, before thumbnails) → `insights_reel_header.png`.
-2. Body:
-   - `1.png` `y = 360 … 2060` (thumbnails + Summary cards, stop before Views over time)
-   - `2.PNG` `y = 380 … 2650` (Views over time through Save rate; skip sticky header)
-   - `3.PNG` `y = 350 … last content` (Comment rate through Boost this reel)
-   → `insights_reel_full.png` (1290×6259, includes a short bottom pad)
+2. Body — always cut in empty black, never through text or icons, and never include the same row twice:
+   - `1.png` `y = 360 … 1988` (thumbnails + Summary cards, stop at the card bottoms)
+   - `2.PNG` `y = 320 … 2648` (empty + full Views over time heading through Save rate + the gap under it; skip sticky header)
+   - `3.PNG` `y = 328 … last content` (empty + full Comment rate through Boost this reel)
+   → `insights_reel_full.png` (1290×6267, includes a short bottom pad)
 3. Back returns to Insights Content. Do not use the spinner overlay.
