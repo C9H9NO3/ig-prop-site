@@ -65,7 +65,8 @@ Content’s first row opens a separate screen (`#s-reel`), not the main Insights
    - folder `(11)` `1.png` `y = 360 … 1988` (thumbnails + Summary cards)
    - folder `(11)` `2.PNG` `y = 320 …` through Views / Instagram / Facebook (stop in empty before What impacts)
    - folder `(13)` `2.PNG` `y = 360 … 1820` (What impacts heading through Comment rate; **do not** include that shot’s leftover How long heading or its short magenta line)
-   - folder `(14)` `C5B42B15-…png` `y = 548 … 2496` (full How long people watched through the **Ad** heading; stop before that shot’s Boost row — Instagram clips Boost on the home indicator, so the gray icon circle and letter bottoms are missing in every source screenshot)
-   - Rebuild **Boost this reel** as a complete Overview-style list row (140 px gray icon well, matching Profile visits / Business address taps), then Overview’s empty pad under the complete Business address circle
-   → `insights_reel_full.png` (1290×6705)
+   - folder `(14)` `C5B42B15-…png` `y = 548 … 2404` (full How long people watched through Top sources ending with Other 3%; stop in the empty gap **before** that shot’s Ad heading — its Boost row has an iOS tap-highlight orb baked in and must never be used)
+   - folder `(11)` `3.PNG` `y = 2330 … 2796` (authentic **Ad** heading + complete Boost this reel row — bare white arrow, no circle — plus its natural 259 px empty bottom; no home indicator in this shot)
+   - Feather a 60 px background blend across the f14→f11 seam (live y 6246–6306) since f14 bg ≈ (10,14,17) and f11 bg = (11,16,20)
+   → `insights_reel_full.png` (1290×6742)
 3. Back returns to Insights Content. Do not use the spinner overlay.
