@@ -41,26 +41,28 @@ window.VIEWS_GRAPH = {
 };
 
 // Daily net followers on Insights Audience (Jul 20 → Aug 18).
-// Y-axis stays 20K / 0 / -20K. Spike heights match Top content by follows
-// (+3,492 / +2,294 / +1,750) on the same days as those videos in VIEWS_GRAPH.
+// Y-axis stays 20K / 0 / -20K. Eight needles (~2–4K) for eight posts;
+// top three are the Follows tiles × ~1.2 (+4.2K / +2.8K / +2.1K).
 window.FOLLOWS_GRAPH = {
   labelsX: ["Jul 20", "Aug 3", "Aug 18"],
   yMin: -20000,
   yMax:  20000,
   values: [
-    0,              // Jul 20  short flat lead-in
-    3492,           // Jul 21  4w  Spain 2026 World Cup     +3,492
-    -180, 40, 20,
-    900,            // Jul 25  3w  WORLD CUP
-    -80, 30, 0, 120, -40, 50, 0, 80, -20,
-    2294,           // Aug 4   2w  dance emojis              +2,294
-    -120, 40, 15,
-    450,            // Aug 8   1w  Riding with the bro
-    -30,
-    180,            // Aug 10  1w  Another one
-    140,            // Aug 11  1w  Hitch hiker
-    20, -50, 30,
-    1750,           // Aug 15  3d  Meow meow                 +1,750
-    -90, 25, 40
+    0, 30, -20, 40,     // short plateau on 0, like the original lead-in
+    4190,               // Spain 2026 World Cup     +3,492 × 1.2
+    -220, 40,
+    2600,               // WORLD CUP
+    -160, 30, 0,
+    2100,               // 8th post
+    -140, 40, 20,
+    2753,               // dance emojis             +2,294 × 1.2
+    -180, 50, 20,
+    2300,               // Riding with the bro
+    -100,
+    1900,               // Another one
+    1800,               // Hitch hiker is wilding
+    -90, 30, 20,
+    2100,               // Meow meow                +1,750 × 1.2
+    -110, 25, 40
   ],
 };
