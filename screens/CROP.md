@@ -51,3 +51,19 @@ Sources are scaled to width **1290** (folder shots are not always 1290×2796). F
    - `audience3` `y = 500 … 1575` (Top locations / countries)
    - `audience4` `y = 1020 … content end` (Follower active times)
    → `insights_audience_full.png` (1290×6497)
+
+### Content
+
+Header `insights_content_header2.png` (y 0–462 of folder `(9)` list shot). Body `insights_content_full.png`. Tap Content for the 1.8s skeleton, then the Latest list.
+
+### Reel Insights (Meow meow)
+
+Content’s first row opens a separate screen (`#s-reel`), not the main Insights Overview/Content/Audience chrome. Sources: folder `(11)` `1.png` / `2.PNG` / `3.PNG`. Scale `1.png` to width 1290. Paint the top **177 px** of each shot.
+
+1. Header is `1.png`, `y = 0 … 360` (through Insights title, before thumbnails) → `insights_reel_header.png`.
+2. Body:
+   - `1.png` `y = 360 … 2060` (thumbnails + Summary cards, stop before Views over time)
+   - `2.PNG` `y = 380 … 2650` (Views over time through Save rate; skip sticky header)
+   - `3.PNG` `y = 350 … last content` (Comment rate through Boost this reel)
+   → `insights_reel_full.png` (1290×6259, includes a short bottom pad)
+3. Back returns to Insights Content. Do not use the spinner overlay.
