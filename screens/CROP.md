@@ -29,18 +29,17 @@ After swapping images, bump `?v=` in `new.html` and `CACHE` in `sw.js`.
 
 Dashboard **Views** opens Insights (`goInsights()`). Tabs swap header+body PNGs. Keep the live Overview SVG (`#viewsGraph`); punch a hole in the Overview body so the baked-in line is gone. Do not edit the Audience growth graph.
 
-Sources are scaled to width **1290** (folder shots are not always 1290×2796). Filename order is scroll order: `overview1` top → `overview3` bottom, `audience1` top → `audience4` bottom. Paint the top **177 px** of each shot before cropping.
+Sources are scaled to width **1290** (folder shots are not always 1290×2796). Filename order is scroll order: `overview1` top → `overview3` bottom, `audience1` top → `audience4` bottom. Paint the top **177 px** of each shot before cropping. Overview also uses a later full-frame shot of Views by content type (folder `(5)`, `CCAFA001-…png`) so those four rows are not split across `overview1`/`overview2`.
 
 ### Overview
 
 1. Header is `overview1`, `y = 0 … 430` (through the Overview tab underline) → `insights_overview_header2.png`.
 2. Body, sticky chrome skipped on later shots:
-   - `overview1` `y = 430 … 2448` (through the Stories label)
-   - cloned Posts `0`-bar `y = 2321 … 2421` (Stories bar is clipped off the bottom of overview1; include the full gap up to the next label so pitch matches Reels/Posts)
-   - `overview2` `y = 499 … 2260` (Live videos label; no extra pad or Stories→Live is too tall)
+   - `overview1` `y = 430 … 2080` (through Viewers + the gap, stop before that shot’s own legend — its Stories bar is clipped)
+   - new full-frame shot `CCAFA001-…png` `y = 480 … 2750` (legend + all four content-type rows + Top content + Interactions)
    - `overview3` `y = 1820 … height-8` (keep the empty pad under Profile activity)
-   → `insights_overview_full.png` (1290×4846)
-3. Paint the line-chart hole at body `y = 766 … 1296` (matches SVG viewBox 1290×530). Overlay CSS: `top:15.8069%; height:10.9369%`.
+   → `insights_overview_full.png` (1290×4887)
+3. Paint the line-chart hole at body `y = 766 … 1296` (matches SVG viewBox 1290×530). Overlay CSS: `top:15.6742%; height:10.8451%`.
 
 ### Audience
 
