@@ -65,6 +65,7 @@ Content’s first row opens a separate screen (`#s-reel`), not the main Insights
    - folder `(11)` `1.png` `y = 360 … 1988` (thumbnails + Summary cards)
    - folder `(11)` `2.PNG` `y = 320 …` through Views / Instagram / Facebook (stop in empty before What impacts)
    - folder `(13)` `2.PNG` `y = 360 … 1820` (What impacts heading through Comment rate; **do not** include that shot’s leftover How long heading or its short magenta line)
-   - folder `(14)` `C5B42B15-…png` `y = 548 … 2610` (full How long people watched — 100% holds nearly to the end — through Boost this reel; skip sticky header and Comment leftover)
-   → `insights_reel_full.png` (1290×6677). After Boost this reel, crop off the screenshot’s home-indicator gradient and append Overview’s empty pad (213 px of the same `#0d1115` under Business address taps) so the last row can scroll clear of the home indicator.
+   - folder `(14)` `C5B42B15-…png` `y = 548 … 2496` (full How long people watched through the **Ad** heading; stop before that shot’s Boost row — Instagram clips Boost on the home indicator, so the gray icon circle and letter bottoms are missing in every source screenshot)
+   - Rebuild **Boost this reel** as a complete Overview-style list row (140 px gray icon well, matching Profile visits / Business address taps), then Overview’s empty pad under the complete Business address circle
+   → `insights_reel_full.png` (1290×6705)
 3. Back returns to Insights Content. Do not use the spinner overlay.
