@@ -11,7 +11,7 @@
 //  Defaults below are the original traeleg values.
 // ============================================================
 window.STATS = {
-  posts:     "63",
-  followers: "223K",
-  following: "78",
+  posts:     "47",
+  followers: "183K",
+  following: "76",
 };
