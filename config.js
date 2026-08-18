@@ -16,13 +16,26 @@ window.STATS = {
   following: "78",
 };
 
-// Daily Views on Insights Overview (Jul 18 → Aug 16). Edit these and refresh.
-// Y-axis labels (50K / 25K / 0) scale from the max value automatically.
+// Daily Views on Insights Overview (Jul 20 → Aug 18, 30 days).
+// Y-axis (6M / 3M / 0) scales from the max value automatically.
+// Spike days match Content tab videos (Views, last 30 days).
 window.VIEWS_GRAPH = {
-  labelsX: ["Jul 18", "Aug 1", "Aug 15"],
+  labelsX: ["Jul 20", "Aug 3", "Aug 18"],
   values: [
-    4100, 2800, 6200, 5100, 3900, 7800, 11400, 4600, 3400, 9200,
-    28800, 5800, 4700, 4000, 13100, 19800, 7200, 5400, 4500, 9900,
-    48200, 8600, 5700, 4900, 14400, 26300, 6900, 4500, 3700, 5600
+    120000,
+    5100000, // Jul 21  4w  Spain 2026 World Cup  5.1M
+    180000, 95000, 110000,
+    2800000, // Jul 25  3w  WORLD CUP  2.8M
+    165000, 88000, 102000, 140000,
+    91000, 125000, 78000, 155000, 99000,
+    4400000, // Aug 4   2w  dance emojis  4.4M
+    190000, 115000, 87000,
+    1700000, // Aug 8   1w  Riding with the bro  1.7M
+    145000,
+    384800,  // Aug 10  1w  Another one  384.8K
+    257900,  // Aug 11  1w  Hitch hiker is wilding  257.9K
+    98000, 132000, 89000,
+    3600000, // Aug 15  3d  Meow meow  3.6M
+    175000, 108000, 142000
   ],
 };
