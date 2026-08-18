@@ -65,5 +65,5 @@ Content’s first row opens a separate screen (`#s-reel`), not the main Insights
    - `1.png` `y = 360 … 1988` (thumbnails + Summary cards, stop at the card bottoms)
    - `2.PNG` `y = 320 … 2648` (empty + full Views over time heading through Save rate + the gap under it; skip sticky header)
    - `3.PNG` `y = 328 … last content` (empty + full Comment rate through Boost this reel)
-   → `insights_reel_full.png` (1290×6267, includes a short bottom pad)
+   → `insights_reel_full.png` (1290×6349). After the cut, Save→Comment label pitch must match Like→Save (216 px). Shot 3 clips the top of the Comment circle; copy the top 20 px of Save’s circle onto it.
 3. Back returns to Insights Content. Do not use the spinner overlay.
