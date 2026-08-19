@@ -87,5 +87,5 @@ Opened from the second Content row (`#reelHot2`, one 172 px row pitch below Meow
 1. `insights_reel2_full.png` (1290×2420) = `Overview.png` `y = 360 … 2780` — one non-scrolling Overview page (stats 57K/144/2.6K/33K/13K, Summary 1,679,719 / 326,576 / 21s / 1694, Views-over-time top). Content ≈ 807 CSS px < the 812 px scroller, so it cannot scroll; the graph cut sits below the fold.
 2. `insights_reel2aud_top.png` (1290×1511) = `audence_age_1.png` `y = 360 … 1871` (cut 40 px above the pills at 1911).
 3. `insights_reel2aud_age.png` (1290×1416) = `audence_age_2.png` `y = 1464 … 2780` (pills at 1504; full 13-17→65+ list) + that shot’s bg `y = 2680 … 2780` once for clearance.
-4. `insights_reel2aud_cty.png` (1290×1149) = `Country.png` `y = 1871 … 2780` (US 45.2 / UK 14.2 / Canada 4.7 / Brazil 2.3 / Australia 1.4) + its bg `y = 2732 … 2780` ×5.
+4. `insights_reel2aud_cty.png` (1290×1214) = folder `(18)` `AFBFB646-…png` `y = 1806 … 2780` (pills at 1846; US 44.1 / UK 15.4 / Canada 3.6 / Brazil 2.6 / Australia 1.2) + its bg `y = 2700 … 2780` ×3. That shot’s bg is ~0.8 brighter than the top piece, so the first 38 rows are dither-faded to the top’s tone.
 5. Same tab/pill hotspots as reel 1 (`reel2Tab`, `ra2Sel`); Audience-tab cell on the Overview body at y 750–890 of 2420.
