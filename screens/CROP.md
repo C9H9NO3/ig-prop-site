@@ -70,3 +70,12 @@ Content’s first row opens a separate screen (`#s-reel`), not the main Insights
    - The How-long shot’s sticky header covers the top 25 px of its Comment-rate circle. Complete it by pasting the Save disk’s top slice (live rows 3797…3831 → 4014…4048); disks share identical x-extents so the graft is seamless
    → `insights_reel_full.png` (1290×6607)
 3. Back returns to Insights Content. Do not use the spinner overlay.
+
+### Reel Audience tab (Meow meow)
+
+The reel body’s baked-in tabs row (y 750–890 of `insights_reel_full.png`) switches to `#r-audience` via hotspot; scroll position is kept so the tab row stays put (both bodies share identical thumbnail/stats/tab layout, ±1 px). Sources: folder `(16)` `age1.png` / `age2.png` / `country.png`, scaled to 1290, top 177 px painted. Note their stats row reads 151K/14 while Overview reads 160K/12K (user-supplied data).
+
+1. `insights_reelaud_top.png` (1290×1509) = `age1` `y = 360 … 1869` — thumbnails, stats, tabs (Audience underlined), Who viewed, Audience details heading. Cut 40 px above the pills.
+2. `insights_reelaud_age.png` (1290×1409) = `age2` `y = 1369 … 2778` — pills (Age selected) + all seven age rows + natural bottom (trim the bottom-edge dim rows past 2778). `age2` is `age1` scrolled by exactly 500 px.
+3. `insights_reelaud_cty.png` (1290×1116) = `country` `y = 1869 … 2790` + that shot’s empty bg `y = 2725 … 2790` tiled ×3 for scroll clearance.
+4. Age/Country pill hotspots: bubbles at swap-image y 40–155; Age x 48–213, Country x 237–476. Gender is inert. Swap is instant (`raSel`), no shimmer.
