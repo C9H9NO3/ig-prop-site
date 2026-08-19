@@ -11,14 +11,14 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=77">
-<link rel="apple-touch-icon" href="icon.png?v=77">
+<link rel="manifest" href="manifest_new.json?v=78">
+<link rel="apple-touch-icon" href="icon.png?v=78">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=77">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=77">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=78">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=78">
 <title>Instagram</title>
-<script src="config.js?v=77"></script>
+<script src="config.js?v=78"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());
@@ -63,22 +63,26 @@ if('serviceWorker' in navigator){
   /* insights: pinned chrome + inner scroller (CSS sticky fails here because
      body/#app use overflow-x:hidden, which makes sticky a no-op on iOS). */
   #s-insights.active, #s-insights.animating,
-  #s-reel.active, #s-reel.animating{
+  #s-reel.active, #s-reel.animating,
+  #s-reel2.active, #s-reel2.animating{
     display:flex;flex-direction:column;height:100dvh;overflow:hidden;
   }
-  #insHeader, #reelHeader{flex:0 0 auto;position:relative;z-index:10;background:#0d1115;}
+  #insHeader, #reelHeader, #reel2Header{flex:0 0 auto;position:relative;z-index:10;background:#0d1115;}
   #insHeader img.insTabImg{display:none;width:100%;}
   #insHeader img.insTabImg.on{display:block;}
-  #insScroller, #reelScroller{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;
+  #insScroller, #reelScroller, #reel2Scroller{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;
                -webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:#0d1115;}
-  #insContent, #reelContent{position:relative;width:100%;background:#0d1115;}
-  #reelHeader img, #reelContent img{display:block;width:100%;}
+  #insContent, #reelContent, #reel2Content{position:relative;width:100%;background:#0d1115;}
+  #reelHeader img, #reelContent img, #reel2Header img, #reel2Content img{display:block;width:100%;}
   /* reel tabs: Overview body vs Audience body, swapped instantly (no shimmer) */
-  #reelContent .reelTab{display:none;position:relative;}
-  #reelContent .reelTab.on{display:block;}
+  #reelContent .reelTab, #reel2Content .reelTab{display:none;position:relative;}
+  #reelContent .reelTab.on, #reel2Content .reelTab.on{display:block;}
   /* first Content row (Meow meow) — percents of insights_content_full.png (1290×2334): y 369–570 */
   #reelHot{display:none;left:0;top:15.8%;width:100%;height:8.6%;}
   #c-content.on ~ #reelHot{display:block;}
+  /* second Content row (Riding with the bro): one row pitch (172px) below */
+  #reelHot2{display:none;left:0;top:23.17%;width:100%;height:8.6%;}
+  #c-content.on ~ #reelHot2{display:block;}
   #insContent img.insTabImg{display:none;width:100%;}
   #insContent img.insTabImg.on{display:block;}
   #contentShimmer{display:none;position:relative;overflow:hidden;width:100%;}
@@ -92,8 +96,8 @@ if('serviceWorker' in navigator){
     animation:insShine 1.4s linear infinite;}
   @keyframes insShine{from{background-position:-85% 0}to{background-position:130% 0}}
   #contentShimmer::after{
-    -webkit-mask-image:url(insights_content_shimmer_mask.png?v=77);
-    mask-image:url(insights_content_shimmer_mask.png?v=77);}
+    -webkit-mask-image:url(insights_content_shimmer_mask.png?v=78);
+    mask-image:url(insights_content_shimmer_mask.png?v=78);}
   #overviewShimmer{display:none;position:relative;overflow:hidden;width:100%;opacity:1;
     transition:opacity .38s ease;}
   #overviewShimmer.on{display:block;}
@@ -101,8 +105,8 @@ if('serviceWorker' in navigator){
   #overviewShimmer.fade{opacity:0;}
   #overviewShimmer img{display:block;width:100%;}
   #overviewShimmer::after{
-    -webkit-mask-image:url(insights_overview_shimmer_mask.png?v=77);
-    mask-image:url(insights_overview_shimmer_mask.png?v=77);}
+    -webkit-mask-image:url(insights_overview_shimmer_mask.png?v=78);
+    mask-image:url(insights_overview_shimmer_mask.png?v=78);}
   /* Overview line chart overlay — sits on the painted graph hole in the screenshot.
      Percents are of insights_overview_full.png (1290×4887): y 766–1296. */
   #viewsGraph{position:absolute;left:0;width:100%;top:15.6742%;height:10.8451%;
@@ -120,14 +124,14 @@ if('serviceWorker' in navigator){
   /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
      pattern) + stitched content + swipe-snap Audience carousel */
   #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
-          background:#0c1115 url(screens/n_int_hdr_bg.png?v=77) repeat-y;background-size:100% 3px;}
+          background:#0c1115 url(screens/n_int_hdr_bg.png?v=78) repeat-y;background-size:100% 3px;}
   #intHdr img{display:block;width:100%;}
   /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
      viewport). Drag and release -> the card settles into place; ends clamp. */
   #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
            -webkit-overflow-scrolling:touch;background:#0c1115;}
   #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/685;
-            background:url(screens/n_aud_strip.png?v=77) no-repeat;background-size:100% 100%;}
+            background:url(screens/n_aud_strip.png?v=78) no-repeat;background-size:100% 100%;}
   #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
   #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
 </style>
@@ -139,7 +143,7 @@ if('serviceWorker' in navigator){
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=77">
+        <img src="screens/n_home.png?v=78">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -147,7 +151,7 @@ if('serviceWorker' in navigator){
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=77">
+        <img src="screens/n_profile.png?v=78">
         <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
       </div>
     </div>
@@ -155,7 +159,7 @@ if('serviceWorker' in navigator){
     <!-- DASHBOARD -->
     <div class="screen" id="s-dashboard">
       <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=77">
+        <img id="dashImg" src="screens/n_dash.png?v=78">
         <!-- Views row -> insights. This capture has no Interactions row
              (Views / New followers / Content). Extra rows stay unwired. -->
         <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
@@ -165,11 +169,11 @@ if('serviceWorker' in navigator){
     <!-- INTERACTIONS -->
     <div class="screen navpad" id="s-interactions">
       <div id="intHdr">
-        <img src="screens/n_int_header.png?v=77">
+        <img src="screens/n_int_header.png?v=78">
         <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
       </div>
       <div class="sheet">
-        <img src="screens/n_int_top.png?v=77">
+        <img src="screens/n_int_top.png?v=78">
       </div>
       <div id="audSnap">
         <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
@@ -180,7 +184,7 @@ if('serviceWorker' in navigator){
     <!-- INSIGHTS -->
     <div class="screen" id="s-insights">
       <div id="insHeader">
-        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=77">
+        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=78">
         <img id="h-content" class="insTabImg" alt="">
         <img id="h-audience" class="insTabImg" alt="">
         <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
@@ -189,14 +193,15 @@ if('serviceWorker' in navigator){
       </div>
       <div id="insScroller">
         <div id="insContent">
-          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=77">
+          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=78">
           <img id="c-content" class="insTabImg" alt="">
           <img id="c-audience" class="insTabImg" alt="">
-          <div id="overviewShimmer"><img src="insights_overview_shimmer.png?v=77" alt=""></div>
-          <div id="contentShimmer"><img src="insights_content_shimmer.png?v=77" alt=""></div>
+          <div id="overviewShimmer"><img src="insights_overview_shimmer.png?v=78" alt=""></div>
+          <div id="contentShimmer"><img src="insights_content_shimmer.png?v=78" alt=""></div>
           <div id="viewsGraph"></div>
           <div id="followsGraph"></div>
           <div id="reelHot" class="hot" onclick="goReel()"></div>
+          <div id="reelHot2" class="hot" onclick="goReel2()"></div>
         </div>
       </div>
     </div>
@@ -204,25 +209,25 @@ if('serviceWorker' in navigator){
     <!-- REEL INSIGHTS (Meow meow) -->
     <div class="screen" id="s-reel">
       <div id="reelHeader">
-        <img src="insights_reel_header.png?v=77">
+        <img src="insights_reel_header.png?v=78">
         <div class="hot" style="left:0;top:49%;width:18%;height:51%" onclick="goBackInsights()"></div>
       </div>
       <div id="reelScroller">
         <div id="reelContent">
           <div id="r-overview" class="reelTab on">
-            <img src="insights_reel_full.png?v=77">
+            <img src="insights_reel_full.png?v=78">
             <!-- Audience tab cell of insights_reel_full.png (1290x6607): y 750-890 -->
             <div class="hot" style="left:62%;top:11.35%;width:38%;height:2.12%" onclick="reelTab('aud')"></div>
           </div>
           <div id="r-audience" class="reelTab">
             <div style="position:relative">
-              <img src="insights_reelaud_top.png?v=77">
+              <img src="insights_reelaud_top.png?v=78">
               <!-- Overview tab cell of insights_reelaud_top.png (1290x1509): y 750-890 -->
               <div class="hot" style="left:0;top:49.7%;width:36%;height:9.3%" onclick="reelTab('ov')"></div>
             </div>
             <div style="position:relative">
-              <img id="raAge" src="insights_reelaud_age.png?v=77">
-              <img id="raCty" src="insights_reelaud_cty.png?v=77" style="display:none">
+              <img id="raAge" src="insights_reelaud_age.png?v=78">
+              <img id="raCty" src="insights_reelaud_cty.png?v=78" style="display:none">
               <!-- Age / Country pills sit at the top of both swap images (bubbles y 40-155 of 1290-wide) -->
               <div class="hot" style="left:3%;top:2.3vw;width:14%;height:10.6vw" onclick="raSel('age')"></div>
               <div class="hot" style="left:17.5%;top:2.3vw;width:20%;height:10.6vw" onclick="raSel('cty')"></div>
@@ -232,8 +237,38 @@ if('serviceWorker' in navigator){
       </div>
     </div>
 
+    <!-- REEL 2 INSIGHTS (Riding with the bro) -->
+    <div class="screen" id="s-reel2">
+      <div id="reel2Header">
+        <img src="insights_reel_header.png?v=78">
+        <div class="hot" style="left:0;top:49%;width:18%;height:51%" onclick="goBackInsights()"></div>
+      </div>
+      <div id="reel2Scroller">
+        <div id="reel2Content">
+          <div id="r2-overview" class="reelTab on">
+            <img src="insights_reel2_full.png?v=78">
+            <!-- Audience tab cell of insights_reel2_full.png (1290x2420): y 750-890 -->
+            <div class="hot" style="left:62%;top:31.0%;width:38%;height:5.79%" onclick="reel2Tab('aud')"></div>
+          </div>
+          <div id="r2-audience" class="reelTab">
+            <div style="position:relative">
+              <img src="insights_reel2aud_top.png?v=78">
+              <!-- Overview tab cell of insights_reel2aud_top.png (1290x1511): y 750-895 -->
+              <div class="hot" style="left:0;top:49.6%;width:36%;height:9.3%" onclick="reel2Tab('ov')"></div>
+            </div>
+            <div style="position:relative">
+              <img id="ra2Age" src="insights_reel2aud_age.png?v=78">
+              <img id="ra2Cty" src="insights_reel2aud_cty.png?v=78" style="display:none">
+              <div class="hot" style="left:3%;top:2.3vw;width:14%;height:10.6vw" onclick="ra2Sel('age')"></div>
+              <div class="hot" style="left:17.5%;top:2.3vw;width:20%;height:10.6vw" onclick="ra2Sel('cty')"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=77"></div>
+  <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=78"></div>
 </div>
 <script>
   // ---- live profile stat numbers (posts/followers/following) ----
@@ -300,7 +335,7 @@ if('serviceWorker' in navigator){
     document.body.style.background = '#0d1115';
   });
 
-  const ASSET_V = '?v=77';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=78';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay
@@ -354,6 +389,7 @@ if('serviceWorker' in navigator){
       window.scrollTo(0, 0);
       if (id === 's-insights') kickInsScroller();
       if (id === 's-reel') kickReelScroller();
+      if (id === 's-reel2') kickReel2Scroller();
     };
     incoming.addEventListener('transitionend', done);
     setTimeout(() => { if (current !== id) done(); }, 700);  // safety
@@ -424,6 +460,27 @@ if('serviceWorker' in navigator){
     el('raAge').style.display = w === 'age' ? 'block' : 'none';
     el('raCty').style.display = w === 'cty' ? 'block' : 'none';
   }
+  // Reel 2 (Riding with the bro): same structure as reel 1
+  function kickReel2Scroller(){
+    const sc = el('reel2Scroller');
+    if (!sc) return;
+    sc.scrollTop = 0;
+    void sc.offsetHeight;
+  }
+  function goReel2(){
+    kickReel2Scroller();
+    reel2Tab('ov');
+    ra2Sel('age');
+    go('s-reel2', 'slide');
+  }
+  function reel2Tab(t){
+    el('r2-overview').classList.toggle('on', t === 'ov');
+    el('r2-audience').classList.toggle('on', t === 'aud');
+  }
+  function ra2Sel(w){
+    el('ra2Age').style.display = w === 'age' ? 'block' : 'none';
+    el('ra2Cty').style.display = w === 'cty' ? 'block' : 'none';
+  }
   const INS_PAGES = {
     overview: ['insights_overview_header2.png', 'insights_overview_full.png'],
     content:  ['insights_content_header2.png',  'insights_content_full.png'],
@@ -450,6 +507,10 @@ if('serviceWorker' in navigator){
       decodeUrl('insights_reelaud_top.png' + ASSET_V);
       decodeUrl('insights_reelaud_age.png' + ASSET_V);
       decodeUrl('insights_reelaud_cty.png' + ASSET_V);
+      decodeUrl('insights_reel2_full.png' + ASSET_V);
+      decodeUrl('insights_reel2aud_top.png' + ASSET_V);
+      decodeUrl('insights_reel2aud_age.png' + ASSET_V);
+      decodeUrl('insights_reel2aud_cty.png' + ASSET_V);
     }
     return [hUrl, cUrl];
   }
