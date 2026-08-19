@@ -73,10 +73,10 @@ Content’s first row opens a separate screen (`#s-reel`), not the main Insights
 
 ### Reel Audience tab (Meow meow)
 
-The reel body’s baked-in tabs row (y 750–890 of `insights_reel_full.png`) switches to `#r-audience` via hotspot; scroll position is kept so the tab row stays put (both bodies share identical thumbnail/stats/tab layout, ±1 px). Sources: folder `(16)` `age1.png` / `age2.png` / `country.png`, scaled to 1290, top 177 px painted. Note their stats row reads 151K/14 while Overview reads 160K/12K (user-supplied data).
+The reel body’s baked-in tabs row (y 750–890 of `insights_reel_full.png`) switches to `#r-audience` via hotspot; scroll position is kept so the tab row stays put (both bodies share identical thumbnail/stats/tab layout, ±1 px). Top + Age pills/rows through 35–44 are folder `(20)` `379161B4-…png` (scaled to 1290, top 177 px painted). Country bottom and the 45–54→65+ tail are still folder `(16)`. Stats on the folder-20 shot match Overview (160K/291/4.6K/58K/12K).
 
-1. `insights_reelaud_top.png` (1290×1509) = folder `(19)` `FC360A6C-…png` `y = 360 … 1869` — thumbnails, stats (148K/291/4.6K/58K/12K), tabs (Audience underlined), Who viewed, Audience details heading. Cut 40 px above the pills at 1909. Same geometry as the original `age1` piece, so hotspots are unchanged.
-2. `insights_reelaud_age.png` (1290×1409) = `age2` `y = 1369 … 2778` — pills (Age selected) + all seven age rows + natural bottom (trim the bottom-edge dim rows past 2778). `age2` is `age1` scrolled by exactly 500 px.
+1. `insights_reelaud_top.png` (1290×1510) = folder `(20)` `379161B4-…png` `y = 360 … 1870` — thumbnails, stats (160K/291/4.6K/58K/12K), tabs (Audience underlined), Who viewed, Audience details heading. Cut 40 px above the pills at 1910. Same geometry as the original `age1` piece (±1 px), so hotspots are unchanged.
+2. `insights_reelaud_age.png` (1290×1409) = folder `(20)` `y = 1870 … 2610` (pills + 13–17 7.1% through 35–44 12.8%) + folder `(16)` `age2` `y = 2109 … 2778` (45–54 5.2% / 55–64 1.9% / 65+ 1.4% + natural bottom). Folder 20 clips 45–54 at the home indicator, so those three rows stay on `age2`. Inner seam sits in the empty gap after 35–44. Height matches the original swap image, so pill hotspots are unchanged.
 3. `insights_reelaud_cty.png` (1290×1116) = `country` `y = 1869 … 2790` + that shot’s empty bg `y = 2725 … 2790` tiled ×3 for scroll clearance.
 4. Age/Country pill hotspots: bubbles at swap-image y 40–155; Age x 48–213, Country x 237–476. Gender is inert. Swap is instant (`raSel`), no shimmer.
 
