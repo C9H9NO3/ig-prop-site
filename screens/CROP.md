@@ -1,5 +1,18 @@
 # `/new` screenshot crop (last working version)
 
+## v2 (current): new "Your dashboard" flow, sources from Screen Edit Lab
+
+`/new` now runs Home → Profile → Your dashboard (Home / Performance / Content / Audience) → Content row 1 → Reel 1 Insights. All images live in `v2/` and come from the latest edit of each shot in Screen Edit Lab (backup `/api/backup`). Every shot is 1290 × 2796; paint the top 177 px with the row-150 color.
+
+- `profile.png`: full frame. "Your dashboard" card is y 987–1154.
+- Dashboard header is y 0–473 (title 236–262, tabs 398–420, underline 466–470, grey line 471–472); identical on every tab, so each tab's header comes from its own first shot (`dash_h_*`), and the body is the rest (`dash_b_*`).
+- Performance (2 shots) and Audience (4 shots) are stitched with Screen Edit Lab's `stitchShots`, then split at 473.
+- Content rows: separators at 1076 / 1293 / 1510 (pitch 217); row 1 is 860–1076.
+- Reel header is y 0–350 (above the thumbnails). Overview body is the rest; tabs row 1080–1195 of the shot.
+- Reel Audience: the top (350 → 40 px above the pills) always comes from the **Age** shot. Age / Country / Gender swap images start 40 px above their own pills (Age and Country pills at 1864, Gender at 1910 because its thumbnail strip sits lower), so the pills sit at y 40–154 of every swap image.
+
+## v1 (old Insights flow)
+
 Use this whenever replacing `n_home.png`, `n_profile.png`, or `n_dash.png`.
 
 ## Source files

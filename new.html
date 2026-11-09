@@ -11,14 +11,13 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=81">
-<link rel="apple-touch-icon" href="icon.png?v=81">
+<link rel="manifest" href="manifest_new.json?v=82">
+<link rel="apple-touch-icon" href="icon.png?v=82">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=81">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=81">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=82">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=82">
 <title>Instagram</title>
-<script src="config.js?v=81"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update());
@@ -54,86 +53,23 @@ if('serviceWorker' in navigator){
 
   .sheet{position:relative;width:100%;}
   .sheet > img{display:block;width:100%;height:auto;position:relative;z-index:1;}
-  video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d1115;z-index:0;}
   .hot{position:absolute;background:transparent;z-index:5;}
-  /* live profile stat numbers drawn from real harvested digit-images */
-  #profileStats{position:absolute;inset:0;z-index:3;pointer-events:none;}
-  #profileStats img{position:absolute;-webkit-user-drag:none;}
 
-  /* insights: pinned chrome + inner scroller (CSS sticky fails here because
-     body/#app use overflow-x:hidden, which makes sticky a no-op on iOS). */
-  #s-insights.active, #s-insights.animating,
-  #s-reel.active, #s-reel.animating,
-  #s-reel2.active, #s-reel2.animating{
-    display:flex;flex-direction:column;height:100dvh;overflow:hidden;
+  /* dashboard + reel: pinned header + inner scroller (CSS sticky fails here because
+     body/#app use overflow-x:hidden, which makes sticky a no-op on iOS). The header
+     images already include the painted 177px status band - no extra safe-area pad. */
+  #s-dash.active, #s-dash.animating,
+  #s-reel.active, #s-reel.animating{
+    display:flex;flex-direction:column;height:100dvh;overflow:hidden;background:#0b1014;
   }
-  #insHeader, #reelHeader, #reel2Header{flex:0 0 auto;position:relative;z-index:10;background:#0d1115;}
-  #insHeader img.insTabImg{display:none;width:100%;}
-  #insHeader img.insTabImg.on{display:block;}
-  #insScroller, #reelScroller, #reel2Scroller{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;
-               -webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:#0d1115;}
-  #insContent, #reelContent, #reel2Content{position:relative;width:100%;background:#0d1115;}
-  #reelHeader img, #reelContent img, #reel2Header img, #reel2Content img{display:block;width:100%;}
-  /* reel tabs: Overview body vs Audience body, swapped instantly (no shimmer) */
-  #reelContent .reelTab, #reel2Content .reelTab{display:none;position:relative;}
-  #reelContent .reelTab.on, #reel2Content .reelTab.on{display:block;}
-  /* first Content row (Meow meow) — percents of insights_content_full.png (1290×2334): y 369–570 */
-  #reelHot{display:none;left:0;top:15.8%;width:100%;height:8.6%;}
-  #c-content.on ~ #reelHot{display:block;}
-  /* second Content row (Riding with the bro): one row pitch (172px) below */
-  #reelHot2{display:none;left:0;top:23.17%;width:100%;height:8.6%;}
-  #c-content.on ~ #reelHot2{display:block;}
-  #insContent img.insTabImg{display:none;width:100%;}
-  #insContent img.insTabImg.on{display:block;}
-  #contentShimmer{display:none;position:relative;overflow:hidden;width:100%;}
-  #contentShimmer.on{display:block;}
-  #contentShimmer img{display:block;width:100%;}
-  #contentShimmer::after,#overviewShimmer::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.07) 42%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.07) 58%,rgba(255,255,255,0) 100%);
-    background-size:85% 100%;background-repeat:no-repeat;
-    -webkit-mask-size:100% 100%;mask-size:100% 100%;
-    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-    animation:insShine 1.4s linear infinite;}
-  @keyframes insShine{from{background-position:-85% 0}to{background-position:130% 0}}
-  #contentShimmer::after{
-    -webkit-mask-image:url(insights_content_shimmer_mask.png?v=81);
-    mask-image:url(insights_content_shimmer_mask.png?v=81);}
-  #overviewShimmer{display:none;position:relative;overflow:hidden;width:100%;opacity:1;
-    transition:opacity .38s ease;}
-  #overviewShimmer.on{display:block;}
-  #overviewShimmer.cover{position:absolute;left:0;top:0;z-index:5;}
-  #overviewShimmer.fade{opacity:0;}
-  #overviewShimmer img{display:block;width:100%;}
-  #overviewShimmer::after{
-    -webkit-mask-image:url(insights_overview_shimmer_mask.png?v=81);
-    mask-image:url(insights_overview_shimmer_mask.png?v=81);}
-  /* Overview line chart overlay — sits on the painted graph hole in the screenshot.
-     Percents are of insights_overview_full.png (1290×4887): y 766–1296. */
-  #viewsGraph{position:absolute;left:0;width:100%;top:15.6742%;height:10.8451%;
-              z-index:4;pointer-events:none;visibility:hidden;}
-  #viewsGraph svg{width:100%;height:100%;display:block;}
-  /* Audience follower-growth overlay — hole in insights_audience_full.png (1290×6497): y 880–1280. */
-  #followsGraph{position:absolute;left:0;width:100%;top:13.5447%;height:6.1567%;
-                z-index:4;pointer-events:none;display:none;visibility:hidden;}
-  #followsGraph svg{width:100%;height:100%;display:block;}
-  #s-insights.ins-ready #viewsGraph,
-  #s-insights.ins-ready #followsGraph{visibility:visible;}
-  #insLoading{position:fixed;inset:0;z-index:80;background:#0d1115;display:none;}
-  #insLoading img{display:block;width:100%;}
-
-  /* interactions: pinned header (safe-area padding, tiled real-bg strip - the /new1
-     pattern) + stitched content + swipe-snap Audience carousel */
-  #intHdr{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);
-          background:#0c1115 url(screens/n_int_hdr_bg.png?v=81) repeat-y;background-size:100% 3px;}
-  #intHdr img{display:block;width:100%;}
-  /* carousel: two snap stops (Top cities at 0, Top countries at D=1066/1290 of the
-     viewport). Drag and release -> the card settles into place; ends clamp. */
-  #audSnap{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
-           -webkit-overflow-scrolling:touch;background:#0c1115;}
-  #audTrack{width:182.6357%;display:flex;aspect-ratio:2356/685;
-            background:url(screens/n_aud_strip.png?v=81) no-repeat;background-size:100% 100%;}
-  #audTrack .sA{width:45.2462%;scroll-snap-align:start;}
-  #audTrack .sB{width:54.7538%;scroll-snap-align:start;}
+  .pinHead{flex:0 0 auto;position:relative;z-index:10;background:#0b1014;}
+  .scroller{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;
+            -webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:#0b1014;}
+  .pinHead img, .scroller img{display:block;width:100%;}
+  .pinHead img.tabImg{display:none;}
+  .pinHead img.tabImg.on{display:block;}
+  .tabBody{display:none;position:relative;}
+  .tabBody.on{display:block;}
 </style>
 </head>
 <body style="background:#000">
@@ -143,7 +79,7 @@ if('serviceWorker' in navigator){
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=81">
+        <img src="screens/n_home.png?v=82">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -151,173 +87,77 @@ if('serviceWorker' in navigator){
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="screens/n_profile.png?v=81">
-        <div class="hot" style="left:3%;top:36%;width:94%;height:7%" onclick="goDashboard()"></div>
+        <img src="v2/profile.png?v=82">
+        <!-- "Your dashboard" card, v2/profile.png (1290x2796): y 987-1154 -->
+        <div class="hot" style="left:3%;top:35%;width:94%;height:6.6%" onclick="goDash()"></div>
       </div>
     </div>
 
-    <!-- DASHBOARD -->
-    <div class="screen" id="s-dashboard">
-      <div class="sheet">
-        <img id="dashImg" src="screens/n_dash.png?v=81">
-        <!-- Views row -> insights. This capture has no Interactions row
-             (Views / New followers / Content). Extra rows stay unwired. -->
-        <div class="hot" style="left:0;top:17.8%;width:100%;height:4.8%" onclick="goInsights()"></div>
+    <!-- YOUR DASHBOARD: Home / Performance / Content / Audience -->
+    <div class="screen" id="s-dash">
+      <div class="pinHead">
+        <img id="dh-home" class="tabImg on" src="v2/dash_h_home.png?v=82">
+        <img id="dh-perf" class="tabImg" src="v2/dash_h_perf.png?v=82">
+        <img id="dh-content" class="tabImg" src="v2/dash_h_content.png?v=82">
+        <img id="dh-aud" class="tabImg" src="v2/dash_h_aud.png?v=82">
+        <!-- header 1290x473: back button y 174-306, tabs row y 360-473 -->
+        <div class="hot" style="left:0;top:34%;width:17%;height:34%" onclick="go('s-profile','back')"></div>
+        <div class="hot" style="left:0;top:74%;width:25%;height:26%" onclick="dashTab('home')"></div>
+        <div class="hot" style="left:25%;top:74%;width:25%;height:26%" onclick="dashTab('perf')"></div>
+        <div class="hot" style="left:50%;top:74%;width:25%;height:26%" onclick="dashTab('content')"></div>
+        <div class="hot" style="left:75%;top:74%;width:25%;height:26%" onclick="dashTab('aud')"></div>
       </div>
-    </div>
-
-    <!-- INTERACTIONS -->
-    <div class="screen navpad" id="s-interactions">
-      <div id="intHdr">
-        <img src="screens/n_int_header.png?v=81">
-        <div class="hot" style="left:0;top:0;width:16%;height:58%" onclick="goBackDash()"></div>
-      </div>
-      <div class="sheet">
-        <img src="screens/n_int_top.png?v=81">
-      </div>
-      <div id="audSnap">
-        <div id="audTrack"><div class="sA"></div><div class="sB"></div></div>
-      </div>
-      <div style="height:90px;background:#0c1115"></div>
-    </div>
-
-    <!-- INSIGHTS -->
-    <div class="screen" id="s-insights">
-      <div id="insHeader">
-        <img id="h-overview" class="insTabImg on" src="insights_overview_header2.png?v=81">
-        <img id="h-content" class="insTabImg" alt="">
-        <img id="h-audience" class="insTabImg" alt="">
-        <div class="hot" style="left:0;top:65%;width:33.3%;height:35%" onclick="insTab('overview')"></div>
-        <div class="hot" style="left:33.3%;top:65%;width:33.4%;height:35%" onclick="insTab('content')"></div>
-        <div class="hot" style="left:66.7%;top:65%;width:33.3%;height:35%" onclick="insTab('audience')"></div>
-      </div>
-      <div id="insScroller">
-        <div id="insContent">
-          <img id="c-overview" class="insTabImg on" src="insights_overview_full.png?v=81">
-          <img id="c-content" class="insTabImg" alt="">
-          <img id="c-audience" class="insTabImg" alt="">
-          <div id="overviewShimmer"><img src="insights_overview_shimmer.png?v=81" alt=""></div>
-          <div id="contentShimmer"><img src="insights_content_shimmer.png?v=81" alt=""></div>
-          <div id="viewsGraph"></div>
-          <div id="followsGraph"></div>
-          <div id="reelHot" class="hot" onclick="goReel()"></div>
-          <div id="reelHot2" class="hot" onclick="goReel2()"></div>
+      <div class="scroller" id="dashScroller">
+        <div id="db-home" class="tabBody on">
+          <img src="v2/dash_b_home.png?v=82">
+          <!-- Views card, body 1290x2323: x 50-620, y 198-815 -->
+          <div class="hot" style="left:3.5%;top:8.3%;width:45%;height:27%" onclick="dashTab('perf')"></div>
         </div>
+        <div id="db-perf" class="tabBody"><img src="v2/dash_b_perf.png?v=82"></div>
+        <div id="db-content" class="tabBody">
+          <img src="v2/dash_b_content.png?v=82">
+          <!-- reel rows, body 1290x2323: row 1 y 387-603, pitch 217 -->
+          <div class="hot" style="left:0;top:16.66%;width:100%;height:9.3%" onclick="goReel(1)"></div>
+        </div>
+        <div id="db-aud" class="tabBody"><img src="v2/dash_b_aud.png?v=82"></div>
       </div>
     </div>
 
-    <!-- REEL INSIGHTS (Meow meow) -->
+    <!-- REEL 1 INSIGHTS -->
     <div class="screen" id="s-reel">
-      <div id="reelHeader">
-        <img src="insights_reel_header.png?v=81">
-        <div class="hot" style="left:0;top:49%;width:18%;height:51%" onclick="goBackInsights()"></div>
+      <div class="pinHead">
+        <img src="v2/reel1_h.png?v=82">
+        <!-- header 1290x350: back button y 174-306 -->
+        <div class="hot" style="left:0;top:46%;width:17%;height:45%" onclick="go('s-dash','back')"></div>
       </div>
-      <div id="reelScroller">
-        <div id="reelContent">
-          <div id="r-overview" class="reelTab on">
-            <img src="insights_reel_full.png?v=81">
-            <!-- Audience tab cell of insights_reel_full.png (1290x6607): y 750-890 -->
-            <div class="hot" style="left:62%;top:11.35%;width:38%;height:2.12%" onclick="reelTab('aud')"></div>
-          </div>
-          <div id="r-audience" class="reelTab">
-            <div style="position:relative">
-              <img src="insights_reelaud_top.png?v=81">
-              <!-- Overview tab cell of insights_reelaud_top.png (1290x1510): y 750-890 -->
-              <div class="hot" style="left:0;top:49.7%;width:36%;height:9.3%" onclick="reelTab('ov')"></div>
-            </div>
-            <div style="position:relative">
-              <img id="raAge" src="insights_reelaud_age.png?v=81">
-              <img id="raCty" src="insights_reelaud_cty.png?v=81" style="display:none">
-              <!-- Age / Country pills sit at the top of both swap images (bubbles y 40-155 of 1290-wide) -->
-              <div class="hot" style="left:3%;top:2.3vw;width:14%;height:10.6vw" onclick="raSel('age')"></div>
-              <div class="hot" style="left:17.5%;top:2.3vw;width:20%;height:10.6vw" onclick="raSel('cty')"></div>
-            </div>
-          </div>
+      <div class="scroller" id="reelScroller">
+        <div id="r-ov" class="tabBody on">
+          <img src="v2/reel1_ov.png?v=82">
+          <!-- tabs row, body 1290x2446: y 730-845; Audience x 858-1290 -->
+          <div class="hot" style="left:66.5%;top:29.8%;width:33.5%;height:4.7%" onclick="reelTab('aud')"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- REEL 2 INSIGHTS (Riding with the bro) -->
-    <div class="screen" id="s-reel2">
-      <div id="reel2Header">
-        <img src="insights_reel_header.png?v=81">
-        <div class="hot" style="left:0;top:49%;width:18%;height:51%" onclick="goBackInsights()"></div>
-      </div>
-      <div id="reel2Scroller">
-        <div id="reel2Content">
-          <div id="r2-overview" class="reelTab on">
-            <img src="insights_reel2_full.png?v=81">
-            <!-- Audience tab cell of insights_reel2_full.png (1290x2420): y 750-890 -->
-            <div class="hot" style="left:62%;top:31.0%;width:38%;height:5.79%" onclick="reel2Tab('aud')"></div>
+        <div id="r-aud" class="tabBody">
+          <div style="position:relative">
+            <img id="raTop" src="v2/reel1_aud_top.png?v=82">
+            <!-- tabs row, 1290x1474: y 730-845; Overview x 0-428 -->
+            <div class="hot" style="left:0;top:49.5%;width:33.2%;height:7.8%" onclick="reelTab('ov')"></div>
           </div>
-          <div id="r2-audience" class="reelTab">
-            <div style="position:relative">
-              <img src="insights_reel2aud_top.png?v=81">
-              <!-- Overview tab cell of insights_reel2aud_top.png (1290x1511): y 750-895 -->
-              <div class="hot" style="left:0;top:49.6%;width:36%;height:9.3%" onclick="reel2Tab('ov')"></div>
-            </div>
-            <div style="position:relative">
-              <img id="ra2Age" src="insights_reel2aud_age.png?v=81">
-              <img id="ra2Cty" src="insights_reel2aud_cty.png?v=81" style="display:none">
-              <div class="hot" style="left:3%;top:2.3vw;width:14%;height:10.6vw" onclick="ra2Sel('age')"></div>
-              <div class="hot" style="left:17.5%;top:2.3vw;width:20%;height:10.6vw" onclick="ra2Sel('cty')"></div>
-            </div>
+          <div style="position:relative">
+            <img id="raAge" src="v2/reel1_aud_age.png?v=82">
+            <img id="raCty" src="v2/reel1_aud_cty.png?v=82" style="display:none">
+            <img id="raGen" src="v2/reel1_aud_gen.png?v=82" style="display:none">
+            <!-- pills sit 40-154px below the top of every swap image (1290-wide) -->
+            <div class="hot" style="left:3%;top:2.5vw;width:14%;height:10vw" onclick="raSel('age')"></div>
+            <div class="hot" style="left:17.6%;top:2.5vw;width:19.4%;height:10vw" onclick="raSel('cty')"></div>
+            <div class="hot" style="left:37.6%;top:2.5vw;width:18.6%;height:10vw" onclick="raSel('gen')"></div>
           </div>
         </div>
       </div>
     </div>
 
   </div>
-  <div id="insLoading"><img id="loadImg" src="screens/ins_spinner_c.png?v=81"></div>
 </div>
 <script>
-  // ---- live profile stat numbers (posts/followers/following) ----
-  // Values come from config.js (window.STATS); digits are the real harvested
-  // glyph images in glyphs/, positioned from glyphmeta.js. Edit config.js +
-  // refresh to change them - no rebuild, auto-centered over the labels.
-  function renderStats(){
-    const meta = window.GLYPH_META, cfg = window.STATS;
-    const sheet = document.querySelector('#s-profile .sheet');
-    const overlay = document.getElementById('profileStats');
-    if (!meta || !cfg || !sheet || !overlay) return;
-    const scale = sheet.clientWidth / meta.img_w;   // uniform: aspect preserved
-    if (!scale) return;
-    overlay.innerHTML = '';
-    const cap = meta.capPx * scale;
-    const baseline = meta.baselinePx * scale;
-    const gap = meta.gapPx * scale;
-    const capTop = baseline - cap;
-    for (const key in meta.stats){
-      const val = String((cfg[key] != null ? cfg[key] : ''));
-      const items = [];
-      let totalW = 0;
-      for (const ch of val){
-        const g = meta.glyphs[ch];
-        if (!g) continue;
-        const w = g.w * scale;
-        items.push({ g, w, h: g.h * scale, top: g.top * scale });
-        totalW += w;
-      }
-      if (items.length) totalW += gap * (items.length - 1);
-      let x = meta.stats[key].cx * scale - totalW / 2;   // center on label
-      for (const it of items){
-        const im = document.createElement('img');
-        im.src = 'glyphs/' + it.g.file + (window.ASSET_V || '');
-        im.style.left = x + 'px';
-        im.style.top = (capTop + it.top) + 'px';
-        im.style.width = it.w + 'px';
-        im.style.height = it.h + 'px';
-        overlay.appendChild(im);
-        x += it.w + gap;
-      }
-    }
-  }
-  window.renderStats = renderStats;
-  addEventListener('load', renderStats);
-  addEventListener('resize', renderStats);
-  if (window.visualViewport) visualViewport.addEventListener('resize', renderStats);
-  if (document.readyState !== 'loading') renderStats();
-
   // hard-disable zoom (iOS ignores user-scalable in some versions)
   document.addEventListener('gesturestart', e => e.preventDefault());
   document.addEventListener('gesturechange', e => e.preventDefault());
@@ -335,7 +175,7 @@ if('serviceWorker' in navigator){
     document.body.style.background = '#0d1115';
   });
 
-  const ASSET_V = '?v=81';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=82';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay
@@ -359,7 +199,6 @@ if('serviceWorker' in navigator){
         outgoing.style.cssText = '';
         current = id;
         navBusy = false;
-        if (id === 's-insights') kickInsScroller();
       };
       outgoing.addEventListener('transitionend', doneB);
       setTimeout(() => { if (current !== id) doneB(); }, 700);
@@ -387,127 +226,17 @@ if('serviceWorker' in navigator){
       current = id;
       navBusy = false;
       window.scrollTo(0, 0);
-      if (id === 's-insights') kickInsScroller();
-      if (id === 's-reel') kickReelScroller();
-      if (id === 's-reel2') kickReel2Scroller();
     };
     incoming.addEventListener('transitionend', done);
     setTimeout(() => { if (current !== id) done(); }, 700);  // safety
   }
 
-  function goProfile(){ go('s-profile', 'fade'); renderStats(); }
-  function goDashboard(){
-    // dashboard is a plain screenshot now - no skeleton fake-load (old skeleton
-    // showed the retired 4-video layout and would flash a mismatched frame)
-    go('s-dashboard', 'slide');
-  }
-  function goInteractions(){
-    el('audSnap').scrollLeft = 0;          // always open on Top cities
-    go('s-interactions', 'slide');
-  }
-  function goBackDash(){ go('s-dashboard', 'back'); }
-  function goInsights(){
-    insOpening = true;
-    insTab('overview', true);
-    preloadInsTab('audience');
-    preloadInsTab('content');
-    const sc = el('insScroller'); if (sc) sc.scrollTop = 0;
-    el('s-insights').classList.remove('ins-ready');
-    el('c-overview').classList.remove('on');
-    const sh = el('overviewShimmer');
-    sh.classList.add('on');
-    sh.classList.remove('fade', 'cover');
-    go('s-insights', 'slide');
-    setTimeout(() => {
-      if (!insOpening) return;
-      el('c-overview').classList.add('on');
-      sh.classList.add('cover');
-      el('s-insights').classList.add('ins-ready');
-      requestAnimationFrame(() => { sh.classList.add('fade'); });
-      setTimeout(() => {
-        sh.classList.remove('on', 'fade', 'cover');
-        insOpening = false;
-        kickInsScroller();
-      }, 400);
-    }, 1800);
-  }
-  function kickInsScroller(){
-    const sc = el('insScroller');
-    if (!sc) return;
-    void sc.offsetHeight;
-  }
-  function kickReelScroller(){
-    const sc = el('reelScroller');
-    if (!sc) return;
-    sc.scrollTop = 0;
-    void sc.offsetHeight;
-  }
-  function goReel(){
-    kickReelScroller();
-    reelTab('ov');
-    raSel('age');
-    go('s-reel', 'slide');
-  }
-  function goBackInsights(){ go('s-insights', 'back'); }
   // Decode the images that are about to become visible BEFORE swapping, else the
   // browser paints a not-yet-decoded (blank/dark) frame - the "black flash".
-  // decode() resolves in a microtask when the bitmap is already decoded, so the
-  // swap stays effectively instant after the first time.
   function swapAfterDecode(imgs, apply){
     const jobs = imgs.filter(Boolean).map(i => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()));
     Promise.all(jobs).then(apply, apply);
   }
-  // reel tabs (Overview <-> Audience): swap with scroll position kept so the
-  // tab row stays put; both bodies share identical thumbnail/stats/tab layout.
-  function reelTab(t){
-    const imgs = t === 'aud'
-      ? [...document.querySelectorAll('#r-audience img')].filter(i => i.style.display !== 'none')
-      : [...document.querySelectorAll('#r-overview img')];
-    swapAfterDecode(imgs, () => {
-      el('r-overview').classList.toggle('on', t === 'ov');
-      el('r-audience').classList.toggle('on', t === 'aud');
-    });
-  }
-  // Audience details selector: Age <-> Country, instant image swap (no shimmer)
-  function raSel(w){
-    swapAfterDecode([el(w === 'age' ? 'raAge' : 'raCty')], () => {
-      el('raAge').style.display = w === 'age' ? 'block' : 'none';
-      el('raCty').style.display = w === 'cty' ? 'block' : 'none';
-    });
-  }
-  // Reel 2 (Riding with the bro): same structure as reel 1
-  function kickReel2Scroller(){
-    const sc = el('reel2Scroller');
-    if (!sc) return;
-    sc.scrollTop = 0;
-    void sc.offsetHeight;
-  }
-  function goReel2(){
-    kickReel2Scroller();
-    reel2Tab('ov');
-    ra2Sel('age');
-    go('s-reel2', 'slide');
-  }
-  function reel2Tab(t){
-    const imgs = t === 'aud'
-      ? [...document.querySelectorAll('#r2-audience img')].filter(i => i.style.display !== 'none')
-      : [...document.querySelectorAll('#r2-overview img')];
-    swapAfterDecode(imgs, () => {
-      el('r2-overview').classList.toggle('on', t === 'ov');
-      el('r2-audience').classList.toggle('on', t === 'aud');
-    });
-  }
-  function ra2Sel(w){
-    swapAfterDecode([el(w === 'age' ? 'ra2Age' : 'ra2Cty')], () => {
-      el('ra2Age').style.display = w === 'age' ? 'block' : 'none';
-      el('ra2Cty').style.display = w === 'cty' ? 'block' : 'none';
-    });
-  }
-  const INS_PAGES = {
-    overview: ['insights_overview_header2.png', 'insights_overview_full.png'],
-    content:  ['insights_content_header2.png',  'insights_content_full.png'],
-    audience: ['insights_audience_header2.png', 'insights_audience_full.png'],
-  };
   function decodeUrl(url){
     return new Promise(res => {
       const i = new Image();
@@ -516,169 +245,59 @@ if('serviceWorker' in navigator){
       i.src = url;
     });
   }
-  function preloadInsTab(p){
-    const files = INS_PAGES[p];
-    if (!files) return files;
-    const hUrl = files[0] + ASSET_V, cUrl = files[1] + ASSET_V;
-    const h = el('h-' + p), c = el('c-' + p);
-    if (h && !h.getAttribute('src')) h.src = hUrl;
-    if (c && !c.getAttribute('src')) c.src = cUrl;
-    if (p === 'content'){
-      decodeUrl('insights_reel_header.png' + ASSET_V);
-      decodeUrl('insights_reel_full.png' + ASSET_V);
-      decodeUrl('insights_reelaud_top.png' + ASSET_V);
-      decodeUrl('insights_reelaud_age.png' + ASSET_V);
-      decodeUrl('insights_reelaud_cty.png' + ASSET_V);
-      decodeUrl('insights_reel2_full.png' + ASSET_V);
-      decodeUrl('insights_reel2aud_top.png' + ASSET_V);
-      decodeUrl('insights_reel2aud_age.png' + ASSET_V);
-      decodeUrl('insights_reel2aud_cty.png' + ASSET_V);
-    }
-    return [hUrl, cUrl];
-  }
-  let insGen = 0;
-  let insPage = 'overview';
-  let insOpening = false;
-  function insTab(p, silent){
-    const urls = preloadInsTab(p);
-    if (!urls) return;
-    if (!silent && p === insPage && el('h-' + p) && el('h-' + p).classList.contains('on')) return;
-    if (!silent){
-      insOpening = false;
-      const osh = el('overviewShimmer');
-      if (osh) osh.classList.remove('on', 'fade', 'cover');
-    }
-    insPage = p;
-    const gen = ++insGen;
-    Promise.all(urls.map(decodeUrl)).then(() => {
-      if (gen !== insGen) return;
-      el('h-overview').classList.toggle('on', p === 'overview');
-      el('h-content').classList.toggle('on', p === 'content');
-      el('h-audience').classList.toggle('on', p === 'audience');
-      el('c-overview').classList.toggle('on', p === 'overview' && !insOpening);
-      el('c-audience').classList.toggle('on', p === 'audience');
-      const g = el('viewsGraph');
-      if (g) g.style.display = p === 'overview' ? 'block' : 'none';
-      if (p === 'overview' && !insOpening) drawViewsGraph();
-      const fg = el('followsGraph');
-      if (fg) fg.style.display = p === 'audience' ? 'block' : 'none';
-      if (p === 'audience') drawFollowsGraph();
-      const shine = el('contentShimmer');
-      const body = el('c-content');
-      if (p === 'content'){
-        body.classList.remove('on');
-        shine.classList.add('on');
-        setTimeout(() => {
-          if (gen !== insGen) return;
-          shine.classList.remove('on');
-          body.classList.add('on');
-        }, 1800);
-      } else {
-        shine.classList.remove('on');
-        body.classList.remove('on');
-      }
-      if (!silent) { const sc = el('insScroller'); if (sc) sc.scrollTop = 0; }
-      kickInsScroller();
-    });
+
+  function goProfile(){
+    go('s-profile', 'fade');
+    ['dash_h_home', 'dash_b_home'].forEach(f => decodeUrl('v2/' + f + '.png' + ASSET_V));
   }
 
-  // Recreate the Insights Overview line chart over the screenshot hole.
-  // Geometry copied from the live IG capture (1290-wide overlay viewBox).
-  function fmtK(n){
-    if (!n) return '0';
-    if (n >= 1e6) {
-      const m = n / 1e6;
-      return (Math.abs(m - Math.round(m)) < 0.05 ? Math.round(m) : m.toFixed(1).replace(/\.0$/, '')) + 'M';
-    }
-    const k = n / 1000;
-    return (Math.abs(k - Math.round(k)) < 0.05 ? Math.round(k) : k.toFixed(1).replace(/\.0$/, '')) + 'K';
+  // ---- Your dashboard ----
+  const DASH_TABS = ['home', 'perf', 'content', 'aud'];
+  let dashCur = 'home';
+  function dashTab(t, force){
+    if (t === dashCur && !force) return;
+    swapAfterDecode([el('dh-' + t), el('db-' + t).querySelector('img')], () => {
+      DASH_TABS.forEach(x => {
+        el('dh-' + x).classList.toggle('on', x === t);
+        el('db-' + x).classList.toggle('on', x === t);
+      });
+      dashCur = t;
+      el('dashScroller').scrollTop = 0;
+    });
   }
-  function niceYMax(m){
-    const v = Math.max(m, 1);
-    if (v >= 1e6) {
-      const mil = v / 1e6;
-      const steps = [1,1.5,2,2.5,3,4,5,6,8,10,12,15,20,25,30,40,50];
-      for (let i = 0; i < steps.length; i++) if (steps[i] >= mil) return steps[i] * 1e6;
-      return Math.ceil(mil) * 1e6;
-    }
-    const k = v / 1000;
-    const steps = [1,2,2.5,5,10,15,20,25,30,40,50,60,75,80,100,120,125,150,200,250,500,1000];
-    for (let i = 0; i < steps.length; i++) if (steps[i] >= k) return steps[i] * 1000;
-    return Math.ceil(k) * 1000;
+  function goDash(){
+    dashTab('home', true);
+    go('s-dash', 'slide');
+    // warm everything reachable from here so tab taps are instant
+    ['dash_h_perf', 'dash_b_perf', 'dash_h_content', 'dash_b_content', 'dash_h_aud', 'dash_b_aud',
+     'reel1_h', 'reel1_ov', 'reel1_aud_top', 'reel1_aud_age', 'reel1_aud_cty', 'reel1_aud_gen']
+      .forEach(f => decodeUrl('v2/' + f + '.png' + ASSET_V));
   }
-  function drawViewsGraph(){
-    const host = el('viewsGraph');
-    const cfg = window.VIEWS_GRAPH;
-    if (!host || !cfg || !cfg.values || !cfg.values.length) return;
-    const vals = cfg.values.map(Number);
-    const ymax = niceYMax(Math.max.apply(null, vals));
-    const labelsX = cfg.labelsX || ['', '', ''];
-    const L = 150, R = 1190, T = 25, B = 399, DATE_Y = 448;
-    const n = vals.length;
-    const pts = vals.map((v, i) => {
-      const x = L + (n === 1 ? 0 : i * (R - L) / (n - 1));
-      const y = B - (Math.max(0, v) / ymax) * (B - T);
-      return x.toFixed(1) + ',' + y.toFixed(1);
-    }).join(' ');
-    const yTicks = [ymax, ymax / 2, 0];
-    const yPos = [T, (T + B) / 2, B];
-    const xPos = [L, (L + R) / 2, R];
-    const xAnchor = ['start', 'middle', 'end'];
-    let grids = '';
-    for (let i = 0; i < 3; i++){
-      grids += '<line x1="'+L+'" x2="'+R+'" y1="'+yPos[i]+'" y2="'+yPos[i]+'" stroke="#24292e" stroke-width="3"/>';
-    }
-    let yLabs = '';
-    for (let i = 0; i < 3; i++){
-      yLabs += '<text x="140" y="'+yPos[i]+'" text-anchor="end" dominant-baseline="middle" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+fmtK(yTicks[i])+'</text>';
-    }
-    let xLabs = '';
-    for (let i = 0; i < 3; i++){
-      xLabs += '<text x="'+xPos[i]+'" y="'+DATE_Y+'" text-anchor="'+xAnchor[i]+'" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+labelsX[i]+'</text>';
-    }
-    host.innerHTML = '<svg viewBox="0 0 1290 530" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
-      grids + yLabs + xLabs +
-      '<polyline fill="none" stroke="#dc38d1" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/>'+
-      '</svg>';
+
+  // ---- Reel insights (row N of Content) ----
+  function goReel(n){
+    if (n !== 1) return;
+    reelTab('ov', true);
+    raSel('age');
+    el('reelScroller').scrollTop = 0;
+    go('s-reel', 'slide');
   }
-  function drawFollowsGraph(){
-    const host = el('followsGraph');
-    const cfg = window.FOLLOWS_GRAPH;
-    if (!host || !cfg || !cfg.values || !cfg.values.length) return;
-    const vals = cfg.values.map(Number);
-    const ymin = cfg.yMin != null ? Number(cfg.yMin) : -20000;
-    const ymax = cfg.yMax != null ? Number(cfg.yMax) : 20000;
-    const span = ymax - ymin || 1;
-    const labelsX = cfg.labelsX || ['', '', ''];
-    const L = 150, R = 1190, T = 22, B = 338, DATE_Y = 378;
-    const n = vals.length;
-    const pts = vals.map((v, i) => {
-      const x = L + (n === 1 ? 0 : i * (R - L) / (n - 1));
-      const y = B - ((v - ymin) / span) * (B - T);
-      return x.toFixed(1) + ',' + y.toFixed(1);
-    }).join(' ');
-    const yTicks = [ymax, 0, ymin];
-    const yPos = [T, (T + B) / 2, B];
-    const xPos = [L, (L + R) / 2, R];
-    const xAnchor = ['start', 'middle', 'end'];
-    let grids = '';
-    for (let i = 0; i < 3; i++){
-      grids += '<line x1="'+L+'" x2="'+R+'" y1="'+yPos[i]+'" y2="'+yPos[i]+'" stroke="#24292e" stroke-width="3"/>';
-    }
-    let yLabs = '';
-    for (let i = 0; i < 3; i++){
-      yLabs += '<text x="140" y="'+yPos[i]+'" text-anchor="end" dominant-baseline="middle" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+fmtK(yTicks[i])+'</text>';
-    }
-    let xLabs = '';
-    for (let i = 0; i < 3; i++){
-      xLabs += '<text x="'+xPos[i]+'" y="'+DATE_Y+'" text-anchor="'+xAnchor[i]+'" fill="#9ba4af" font-size="30" font-family="-apple-system,\'SF Pro Text\',sans-serif">'+labelsX[i]+'</text>';
-    }
-    host.innerHTML = '<svg viewBox="0 0 1290 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'+
-      grids + yLabs + xLabs +
-      '<polyline fill="none" stroke="#dc38d1" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/>'+
-      '</svg>';
+  function reelTab(t, force){
+    const body = el(t === 'aud' ? 'r-aud' : 'r-ov');
+    if (body.classList.contains('on') && !force) return;
+    const imgs = [...body.querySelectorAll('img')].filter(i => i.style.display !== 'none');
+    swapAfterDecode(imgs, () => {
+      el('r-ov').classList.toggle('on', t === 'ov');
+      el('r-aud').classList.toggle('on', t === 'aud');
+    });
   }
-  addEventListener('load', drawViewsGraph);
+  // Age / Country / Gender: only the list under the pills swaps; the top stays put
+  function raSel(w){
+    const ids = { age: 'raAge', cty: 'raCty', gen: 'raGen' };
+    swapAfterDecode([el(ids[w])], () => {
+      for (const k in ids) el(ids[k]).style.display = k === w ? 'block' : 'none';
+    });
+  }
 </script>
 </body>
 </html>
