@@ -11,12 +11,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest_new.json?v=91">
-<link rel="apple-touch-icon" href="icon.png?v=91">
+<link rel="manifest" href="manifest_new.json?v=92">
+<link rel="apple-touch-icon" href="icon.png?v=92">
 <!-- native iOS launch images: iOS shows these INSTANTLY on tap (before our HTML
      loads), killing the system gray phase. Pixel-identical to the in-page splash. -->
-<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=91">
-<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=91">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1290x2796.png?v=92">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="launch_1179x2556.png?v=92">
 <title>Instagram</title>
 <script>
 if('serviceWorker' in navigator){
@@ -79,7 +79,7 @@ if('serviceWorker' in navigator){
     <!-- HOME -->
     <div class="screen active" id="s-home">
       <div class="sheet">
-        <img src="screens/n_home.png?v=91">
+        <img src="screens/n_home.png?v=92">
         <div class="hot" style="left:80%;top:89%;width:20%;height:9%" onclick="goProfile()"></div>
       </div>
     </div>
@@ -87,7 +87,7 @@ if('serviceWorker' in navigator){
     <!-- PROFILE -->
     <div class="screen navpad" id="s-profile">
       <div class="sheet">
-        <img src="v2/profile.png?v=91">
+        <img src="v2/profile.png?v=92">
         <!-- "Your dashboard" card, v2/profile.png (1290x2796): y 987-1154 -->
         <div class="hot" style="left:3%;top:35%;width:94%;height:6.6%" onclick="goDash()"></div>
       </div>
@@ -96,10 +96,10 @@ if('serviceWorker' in navigator){
     <!-- YOUR DASHBOARD: Home / Performance / Content / Audience -->
     <div class="screen" id="s-dash">
       <div class="pinHead">
-        <img id="dh-home" class="tabImg on" src="v2/dash_h_home.png?v=91">
-        <img id="dh-perf" class="tabImg" src="v2/dash_h_perf.png?v=91">
-        <img id="dh-content" class="tabImg" src="v2/dash_h_content.png?v=91">
-        <img id="dh-aud" class="tabImg" src="v2/dash_h_aud.png?v=91">
+        <img id="dh-home" class="tabImg on" src="v2/dash_h_home.png?v=92">
+        <img id="dh-perf" class="tabImg" src="v2/dash_h_perf.png?v=92">
+        <img id="dh-content" class="tabImg" src="v2/dash_h_content.png?v=92">
+        <img id="dh-aud" class="tabImg" src="v2/dash_h_aud.png?v=92">
         <!-- header 1290x473: back button y 174-306, tabs row y 360-473 -->
         <div class="hot" style="left:0;top:34%;width:17%;height:34%" onclick="go('s-profile','back')"></div>
         <div class="hot" style="left:0;top:74%;width:25%;height:26%" onclick="dashTab('home')"></div>
@@ -109,43 +109,43 @@ if('serviceWorker' in navigator){
       </div>
       <div class="scroller" id="dashScroller">
         <div id="db-home" class="tabBody on">
-          <img src="v2/dash_b_home.png?v=91">
+          <img src="v2/dash_b_home.png?v=92">
           <!-- Views card, body 1290x2323: x 50-620, y 198-815 -->
           <div class="hot" style="left:3.5%;top:8.3%;width:45%;height:27%" onclick="dashTab('perf')"></div>
         </div>
-        <div id="db-perf" class="tabBody"><img src="v2/dash_b_perf.png?v=91"></div>
+        <div id="db-perf" class="tabBody"><img src="v2/dash_b_perf.png?v=92"></div>
         <div id="db-content" class="tabBody">
-          <img src="v2/dash_b_content.png?v=91">
+          <img src="v2/dash_b_content.png?v=92">
           <!-- reel rows, body 1290x2323: row 1 y 387-603, pitch 217 -->
           <div class="hot" style="left:0;top:16.66%;width:100%;height:9.3%" onclick="goReel(1)"></div>
         </div>
-        <div id="db-aud" class="tabBody"><img src="v2/dash_b_aud.png?v=91"></div>
+        <div id="db-aud" class="tabBody"><img src="v2/dash_b_aud.png?v=92"></div>
       </div>
     </div>
 
     <!-- REEL 1 INSIGHTS -->
     <div class="screen" id="s-reel">
       <div class="pinHead">
-        <img src="v2/reel1_h.png?v=91">
+        <img src="v2/reel1_h.png?v=92">
         <!-- header 1290x350: back button y 174-306 -->
         <div class="hot" style="left:0;top:46%;width:17%;height:45%" onclick="go('s-dash','back')"></div>
       </div>
       <div class="scroller" id="reelScroller">
         <div id="r-ov" class="tabBody on">
-          <img src="v2/reel1_ov.png?v=91">
+          <img src="v2/reel1_ov.png?v=92">
           <!-- tabs row, body 1290x2446: y 730-845; Audience x 858-1290 -->
           <div class="hot" style="left:66.5%;top:29.8%;width:33.5%;height:4.7%" onclick="reelTab('aud')"></div>
         </div>
         <div id="r-aud" class="tabBody">
           <div style="position:relative">
-            <img id="raTop" src="v2/reel1_aud_top.png?v=91">
+            <img id="raTop" src="v2/reel1_aud_top.png?v=92">
             <!-- tabs row, 1290x1474: y 730-845; Overview x 0-428 -->
             <div class="hot" style="left:0;top:49.5%;width:33.2%;height:7.8%" onclick="reelTab('ov')"></div>
           </div>
           <div style="position:relative">
-            <img id="raAge" src="v2/reel1_aud_age.png?v=91">
-            <img id="raCty" src="v2/reel1_aud_cty.png?v=91" style="display:none">
-            <img id="raGen" src="v2/reel1_aud_gen.png?v=91" style="display:none">
+            <img id="raAge" src="v2/reel1_aud_age.png?v=92">
+            <img id="raCty" src="v2/reel1_aud_cty.png?v=92" style="display:none">
+            <img id="raGen" src="v2/reel1_aud_gen.png?v=92" style="display:none">
             <!-- pills sit 40-154px below the top of every swap image (1290-wide) -->
             <div class="hot" style="left:3%;top:2.5vw;width:14%;height:10vw" onclick="raSel('age')"></div>
             <div class="hot" style="left:17.6%;top:2.5vw;width:19.4%;height:10vw" onclick="raSel('cty')"></div>
@@ -175,7 +175,7 @@ if('serviceWorker' in navigator){
     document.body.style.background = '#0d1115';
   });
 
-  const ASSET_V = '?v=91';   // bump when any screen image changes (cache-bust mobile)
+  const ASSET_V = '?v=92';   // bump when any screen image changes (cache-bust mobile)
   const el = id => document.getElementById(id);
   // Flow-model navigation: exactly one screen is .active (in normal flow, so it sets
   // the document height and iOS places the safe areas naturally). Transitions overlay
